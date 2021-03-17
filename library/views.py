@@ -1,9 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from library.services import getShowData
+
 
 def home(request):
-    return render(request, 'library/home.html')
+    x = getShowData()
+
+    return render(request, 'library/home.html',{"media": x})
 
 
 def index(request):
