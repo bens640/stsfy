@@ -2,5 +2,25 @@
 {% load static %}
 {% block content %}
     <h1>HomePage</h1>
-    <h2>{{ media.title }}</h2>
+           <div class="row row-cols-1 row-cols-md-4">
+           {% for x in media.results %}
+            <div class="col mb-4">
+                <div class="card w-auto bg-dark text-white shadow-sm" >
+                    {% if x.poster_path != null %}
+                        <img src="https://image.tmdb.org/t/p/w185/{{ x.poster_path }}" class="card-img-top "
+                             alt="...">
+                    {% else %}
+                        <h1>{{ x.title }}</h1>
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ x.title }}</h5>
+{#                        <img class="rounded-circle account-img" width="25" src="{{ show.user.profile.image.url }}">#}
+{#                        <span class="card-title">  Added by {{ show.user }}</span>#}
+{#                        <a href="{% url 'tv-detail' show.show_num %}" class="stretched-link"></a>#}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
 {% endblock content %}

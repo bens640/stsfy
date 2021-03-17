@@ -6,10 +6,10 @@ tmdb.API_KEY = TMDB_API
 
 
 def getShowData():
-    movie = tmdb.Movies(603)
-    response = movie.info()
-    print(movie.title)
-    return movie
+    search = tmdb.Search()
+    response = search.movie(query='Superman')
+
+    return search
 
 
 
