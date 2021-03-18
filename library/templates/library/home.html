@@ -1,26 +1,31 @@
 {% extends "library/base.html" %}
 {% load static %}
 {% block content %}
-    <h1>HomePage</h1>
+    <iframe src="https://open.spotify.com/embed/album/69GTpu2TQvWQNOjhIVyzRL" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
+    <h1>Movies</h1>
            <div class="row row-cols-1 row-cols-md-4">
-           {% for x in media.results %}
-            <div class="col mb-4">
-                <div class="card w-auto bg-dark text-white shadow-sm" >
-                    {% if x.poster_path != null %}
-                        <img src="https://image.tmdb.org/t/p/w185/{{ x.poster_path }}" class="card-img-top "
-                             alt="...">
-                    {% else %}
-                        <h1>{{ x.title }}</h1>
-                    {% endif %}
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{ x.title }}</h5>
-{#                        <img class="rounded-circle account-img" width="25" src="{{ show.user.profile.image.url }}">#}
-{#                        <span class="card-title">  Added by {{ show.user }}</span>#}
-{#                        <a href="{% url 'tv-detail' show.show_num %}" class="stretched-link"></a>#}
-                    </div>
-                </div>
-            </div>
+           {% for x in movies.results %}
+               {% if forloop.counter < 5 %}
+                    {% include "library/homelist_base.html" %}
+               {% endif %}
         {% endfor %}
     </div>
+    <h1>TV</h1>
+           <div class="row row-cols-1 row-cols-md-4">
+           {% for x in tv.results %}
+               {% if forloop.counter < 5 %}
+                    {% include "library/homelist_base.html" %}
+               {% endif %}
+        {% endfor %}
     </div>
+    <h1>Music</h1>
+    <div class="row row-cols-1 row-cols-md-4">
+           {% for x in music %}
+               {% if forloop.counter < 5 %}
+                    {% include "library/homelist_music_base.html" %}
+               {% endif %}
+        {% endfor %}
+    </div>
+    <h1>Video Games</h1>
 {% endblock content %}

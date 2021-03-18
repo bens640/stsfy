@@ -1,13 +1,44 @@
+import json
+
+from django.contrib.sites import requests
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic import ListView
 
-from library.services import getShowData
+from library.services import getThisYearMovies, searchMovies, getThisYearTv, getTopAlbums
+from stsfy.settings import TMDB_API
 
 
 def home(request):
-    x = getShowData()
+    movies = getThisYearMovies()
+    tv = getThisYearTv()
+    music = getTopAlbums()
 
-    return render(request, 'library/home.html',{"media": x})
+    data = {
+        "movies": movies,
+        'tv': tv,
+        'music': music
+    }
+
+    return render(request, 'library/home.html', data)
+
+class SearchResultsView(ListView):
+
+    template_name = 'library/home.html'
+    context_object_name = 'movies'
+
+    def get_queryset(self):
+
+        if self.request.GET.get('q'):
+            query = self.request.GET.get('q')
+        else:
+            query = 'the'
+
+        data = searchMovies(query)
+        return data
+
+
+
 
 
 def index(request):
