@@ -1,7 +1,10 @@
 {% extends "library/base.html" %}
 {%  load crispy_forms_tags %}
 {% block content %}
+{% if user.is_authenticated %}
+    <h1>Hi {{ user.username }}!</h1>
 
+    {% else %}
     <div class="content w-75 mx-auto">
         <form method="POST">
         {% csrf_token %}
@@ -19,7 +22,7 @@
              Dont have an account?<a class="ml-2" href="{% url 'register' %}">Sign Up Here</a>
          </small>
         </div>
-
+{% endif %}
     </div>
 
 {%  endblock content %}

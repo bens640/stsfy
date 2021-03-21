@@ -11,6 +11,15 @@ def getTopAlbums():
     sp = spotify.new_releases(country="US")
     return sp['albums']['items']
 
+def musicSearch(q, type):
+    if type == 'artist':
+        sp = spotify.search(q='artist:' + q, type='artist')
+        return sp['artists']['items']
+    else:
+        sp = spotify.search(q='album:' + q, type='album')
+        return sp['albums']['items']
+
+
 
 def searchMovies(q):
     movies = tmdb.Search()

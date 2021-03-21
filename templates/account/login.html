@@ -1,0 +1,49 @@
+{% extends "library/base.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+
+
+    {% get_providers as socialaccount_providers %}
+
+
+
+
+    <div class="content w-75 mx-auto">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                {{ form| crispy }}
+            </fieldset>
+            {% if socialaccount_providers %}
+                <h5>or login with </h5>
+                <div class="socialaccount_ballot">
+                    <ul class="socialaccount_providers">
+                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                    </ul>
+                </div>
+
+                {% include "socialaccount/snippets/login_extra.html" %}
+            {% endif %}
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Log in</button>
+
+                {#                <small class="text-muted ml-2"><a href="{% url 'password_reset' %}">Forgot Password?</a></small>#}
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Dont have an account?<a class="ml-2" href="{% url 'register' %}">Sign Up Here</a>
+            </small>
+        </div>
+    </div>
+
+
+{% endblock %}

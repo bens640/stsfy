@@ -22,8 +22,23 @@ def home(request):
 
     return render(request, 'library/home.html', data)
 
-class SearchResultsView(ListView):
 
+def testPage(request):
+    movies = getThisYearMovies()
+    tv = getThisYearTv()
+    music = getTopAlbums()
+
+    data = {
+        "movies": movies,
+        'tv': tv,
+        'music': music,
+
+    }
+
+    return render(request, 'library/test.html', data)
+
+
+class SearchResultsView(ListView):
     template_name = 'library/home.html'
     context_object_name = 'movies'
 
@@ -38,8 +53,12 @@ class SearchResultsView(ListView):
         return data
 
 
-
-
-
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+
+
+def add(request):
+    val1 = request.POST.get('num1', None)
+    print(val1)
+
+    return render(request, 'library/home.html')
