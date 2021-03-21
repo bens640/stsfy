@@ -1,0 +1,21 @@
+<div class="col mb-4">
+    <div class="card w-auto bg-dark text-white shadow-sm">
+        {% if x.poster_path != null %}
+            <img src="https://image.tmdb.org/t/p/w185/{{ x.poster_path }}" class="card-img-top "
+                 alt="...">
+        {% else %}
+            <h1>{{ x.name }}</h1>
+        {% endif %}
+
+
+        <div class="card-body text-center">
+            {% if x.title != null %}
+                <h5 class="card-title">{{ x.title }}</h5>
+            {% else %}
+                <h5 class="card-title" >{{ x.name }}</h5>
+            {% endif %}
+        </div>
+     <a href="{% url  'detail' x.id 2 %}" class="stretched-link"> </a>
+    </div>
+
+</div>

@@ -1,0 +1,42 @@
+{% extends "library/base.html" %}
+
+{% block content %}
+    <a href="{{ item.homepage }}">
+        <img src="https://image.tmdb.org/t/p/w500/{{ item.poster_path }}" style="width: 250px"
+             class="rounded mx-auto d-block shadow" alt="...">
+    </a>
+    {% if item.title %}
+        <h1>{{ item.title }}</h1>
+    {% else %}
+        <h1>{{ item.name }}</h1>
+    {% endif %}
+    <div>
+        <img class="mb-2" style="width: 50px"
+             src="https://image.tmdb.org/t/p/w500/{{ item.production_companies.0.logo_path }}">
+    </div>
+
+    <h3>{{ item.overview }}</h3>
+
+<h2>Similar Titles</h2>
+        {% for sim in similar %}
+            {% if forloop.counter < 8 %}
+                {% if sim.title %}
+                <a href="{% url  'detail' sim.id 1 %}" >
+                 <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
+                </a>
+                    {% else %}
+                    <a href="{% url  'detail' sim.id 2 %}" >
+                 <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
+                </a>
+                    {% endif %}
+            {% endif %}
+        {% endfor %}
+
+    {#    <p>{{ item.release_dates.results.0.release_dates.0.release_date }}</p>#}
+
+
+
+{% endblock content %}
+
+
+

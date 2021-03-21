@@ -20,6 +20,17 @@ def musicSearch(q, type):
         return sp['albums']['items']
 
 
+def getItemDetails(pk, itemType):
+    if itemType == '1':
+        movie = tmdb.Movies(pk)
+        response = movie.info()
+        # print(movie)
+        return [movie, movie.similar_movies()['results']]
+    elif itemType == '2':
+        tv = tmdb.TV(pk)
+        response = tv.info()
+        print(tv)
+        return [tv, tv.similar()['results']]
 
 def searchMovies(q):
     movies = tmdb.Search()

@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from library.services import getThisYearMovies, searchMovies, getThisYearTv, getTopAlbums
+from library.services import *
 from stsfy.settings import TMDB_API
 
 
@@ -59,6 +59,17 @@ def index(request):
 
 def add(request):
     val1 = request.POST.get('num1', None)
-    print(val1)
+
 
     return render(request, 'library/home.html')
+
+
+def detail(request, pk, itemType=1):
+
+    item = getItemDetails(pk, itemType)
+    context = {
+        "item": item[0],
+        'similar': item[1]
+    }
+
+    return render(request, 'library/detail.html', context)
