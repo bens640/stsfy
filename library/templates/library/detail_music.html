@@ -1,0 +1,12 @@
+{% extends "library/base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+    <img style="width: 25%" src={{ item.images.0.url }}>
+<h1>{{ item.name }}</h1>
+
+{#    <iframe src="https://open.spotify.com/embed/artist/{{ item.id }}" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>#}
+<iframe src="https://open.spotify.com/embed/artist/{{ item.id }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+{% endblock content %}

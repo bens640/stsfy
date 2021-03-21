@@ -4,15 +4,17 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from stsfy.settings import TMDB_API, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
 tmdb.API_KEY = TMDB_API
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID,client_secret=SPOTIFY_CLIENT_SECRET))
+spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID,
+                                                                              client_secret=SPOTIFY_CLIENT_SECRET))
 
 
 def getTopAlbums():
     sp = spotify.new_releases(country="US")
     return sp['albums']['items']
 
-def musicSearch(q, type):
-    if type == 'artist':
+
+def musicSearch(q, musicType):
+    if musicType == 'artist':
         sp = spotify.search(q='artist:' + q, type='artist')
         return sp['artists']['items']
     else:
@@ -32,10 +34,20 @@ def getItemDetails(pk, itemType):
         print(tv)
         return [tv, tv.similar()['results']]
 
+
+def getMusicDetails(pk, itemType):
+    if itemType == '1':
+
+        sp = spotify.artist(pk)
+        print(sp)
+        return sp
+
+
 def searchMovies(q):
     movies = tmdb.Search()
     response = movies.movie(query=q)
     return movies
+
 
 def searchTv(q):
     tv = tmdb.Search()
@@ -49,9 +61,9 @@ def getThisYearMovies():
 
     return movies
 
+
 def getThisYearTv():
     tv = tmdb.Discover()
     response = tv.tv(year="2021")
 
     return tv
-

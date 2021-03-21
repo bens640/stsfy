@@ -39,8 +39,8 @@ def testPage(request):
 
 
 class SearchResultsView(ListView):
-    template_name = 'library/home.html'
-    context_object_name = 'movies'
+    template_name = 'library/search_results.html'
+    context_object_name = 'items'
 
     def get_queryset(self):
 
@@ -49,8 +49,17 @@ class SearchResultsView(ListView):
         else:
             query = 'the'
 
-        data = searchMovies(query)
-        return data
+        movies = searchMovies(query)
+        tv = searchTv(query)
+        artists = musicSearch(query, 'artists')
+        albums = musicSearch(query, 'albums')
+        context = {
+            "movies": movies,
+            'tv': tv,
+            'artists': artists,
+            'albums': albums
+        }
+        return context
 
 
 def index(request):
@@ -73,3 +82,13 @@ def detail(request, pk, itemType=1):
     }
 
     return render(request, 'library/detail.html', context)
+
+def detailMusic(request, pk):
+    print(pk)
+    item = getMusicDetails(pk, '1')
+
+    context = {
+        "item": item,
+    }
+
+    return render(request, 'library/detail_music.html', context)

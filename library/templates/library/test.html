@@ -3,71 +3,7 @@
 {% block content %}
 
 
-{#    <h1>Movies</h1>#}
-{#    <div>#}
-{#        <a class="row row-cols-1 row-cols-md-4">#}
-{#            {% for x in movies.results %}#}
-{#                {% if forloop.counter < 5 %}#}
-{#                    <div class="col mb-4">#}
-{#                        <div class="card w-auto bg-dark text-white shadow-sm">#}
-{#                            {% if x.poster_path != null %}#}
-{#                                <img src="https://image.tmdb.org/t/p/w185/{{ x.poster_path }}" class="card-img-top "#}
-{#                                     alt="...">#}
-{#                            {% else %}#}
-{#                                <h1>{{ x.title }}</h1>#}
-{#                            {% endif %}#}
-{#                            <div class="card-body text-center">#}
-{#                                {% if x.title != null %}#}
-{#                                    <h5 class="card-title">{{ x.title }}</h5>#}
-{#                                {% else %}#}
-{#                                    <h5 class="card-title">{{ x.name }}</h5>#}
-{##}
-{##}
-{#                                    <a href="{% url 'library-detail' x.id %}" class="stretched-link">link</a>#}
-{##}
-{#                                {% endif %}#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                {% endif %}#}
-{#            {% endfor %}#}
-{#        </a>#}
-{#    </div>#}
-{##}
-{##}
-{#    <form name="num1" id="num1" action="add" method='POST'>#}
-{#        {% csrf_token %}#}
-{#        <div class="dropdown">#}
-{#            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"#}
-{#                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                Dropdown button#}
-{#            </button>#}
-{#            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
-{#                <a class="dropdown-item" href="#">Action</a>#}
-{#                <a class="dropdown-item" href="#">Another action</a>#}
-{#                <a class="dropdown-item" href="#">Something else here</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    <button type="submit">Submit!</button>#}
-{#    </form>#}
-{##}
-{#    <form name="num1" action="add" method='POST'>#}
-{#        {% csrf_token %}#}
-{#        <div class="form-check form-check-inline" name="num1">#}
-{#            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">#}
-{#            <label class="form-check-label" for="inlineCheckbox1">1</label>#}
-{#        </div>#}
-{#        <div class="form-check form-check-inline">#}
-{#            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">#}
-{#            <label class="form-check-label" for="inlineCheckbox2">2</label>#}
-{#        </div>#}
-{#        <div class="form-check form-check-inline">#}
-{#            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">#}
-{#            <label class="form-check-label" for="inlineCheckbox3">3 </label>#}
-{#        </div>#}
-{#        <button type="submit">Compare!</button>#}
-{#    </form>#}
-{##}
+
 
 
 {% endblock content %}
