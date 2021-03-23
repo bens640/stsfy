@@ -70,3 +70,8 @@ def getThisYearTv():
 
     return tv
 
+def getPersonDetail(id):
+    person = tmdb.People(id)
+    response = person.info()
+    credits = tmdb.People(id).combined_credits()
+    return [person, credits['cast']]

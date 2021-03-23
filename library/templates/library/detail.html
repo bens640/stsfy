@@ -14,7 +14,7 @@
         <img class="mb-2 " style="width: 50px"
              src="https://image.tmdb.org/t/p/w500/{{ item.production_companies.0.logo_path }}">
     </div>
-    {% if item.next_episode_to_air %}
+    {% if airdate != None %}
         <h5 class="text-center">Next Episode:<strong> {{ airdate }}</strong></h5>
     {% endif %}
 
@@ -38,11 +38,13 @@
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
       <div class="row">
-      {% for sim in credits %}
+      {% for person in credits %}
         {% if forloop.counter < 19 %}
                     <div style="width: 180px">
-                    <img src="https://image.tmdb.org/t/p/w500/{{ sim.profile_path }}" style="width: 150px">
-                    <h5 class="text-center">{{ sim.name }}</h5>
+                    <a href="{% url  'detail-person' person.id  %}">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ person.profile_path }}" style="width: 150px">
+                    <h5 class="text-center">{{ person.name }}</h5>
+                    </a>
                     </div>
 
         {% endif %}

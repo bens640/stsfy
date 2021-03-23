@@ -67,21 +67,16 @@ def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
-def add(request):
-    val1 = request.POST.get('num1', None)
-
-
-    return render(request, 'library/home.html')
-
-
 def detail(request, pk, itemType=1):
 
     item = getItemDetails(pk, itemType)
-    if itemType == 2:
-        next_air = parse(item[0].info()['next_episode_to_air']['air_date']).strftime('%A'+', %b %d, %Y')
+    if 'next_episode_to_air' in item[0].info() :
+        if item[0].info()['next_episode_to_air'] is not None:
+            next_air = parse(item[0].info()['next_episode_to_air']['air_date']).strftime('%A'+', %b %d, %Y')
+        else:
+            next_air = None
     else:
-        next_air = ''
-
+        next_air = None
     context = {
         "item": item[0],
         'similar': item[1],
@@ -104,3 +99,11 @@ def detailMusic(request, pk):
 
     return render(request, 'library/detail_music.html', context)
 
+def personDetail(request, pk):
+    person = getPersonDetail(pk)
+    print(person[1])
+    context = {
+        'details': person[0],
+        'credits': person[1]
+    }
+    return render(request, 'library/person_detail.html', context)
