@@ -27,21 +27,23 @@ def getItemDetails(pk, itemType):
         movie = tmdb.Movies(pk)
         response = movie.info()
         # print(movie)
-        return [movie, movie.similar_movies()['results']]
+        return [movie, movie.similar_movies()['results'], movie.credits()['cast']]
     elif itemType == '2':
         tv = tmdb.TV(pk)
         response = tv.info()
-        print(tv)
-        return [tv, tv.similar()['results']]
+
+        return [tv, tv.similar()['results'], tv.credits()['cast']]
+
 
 
 def getMusicDetails(pk, itemType):
     if itemType == '1':
-
         sp = spotify.artist(pk)
-        print(sp)
         return sp
-
+    elif itemType == '2':
+        sp = spotify.artist_albums(pk)
+        # print(sp)
+        return sp
 
 def searchMovies(q):
     movies = tmdb.Search()
@@ -67,3 +69,4 @@ def getThisYearTv():
     response = tv.tv(year="2021")
 
     return tv
+

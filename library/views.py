@@ -1,4 +1,5 @@
 import json
+from dateutil.parser import *
 
 from django.contrib.sites import requests
 from django.http import HttpResponse
@@ -76,19 +77,30 @@ def add(request):
 def detail(request, pk, itemType=1):
 
     item = getItemDetails(pk, itemType)
+    if itemType == 2:
+        next_air = parse(item[0].info()['next_episode_to_air']['air_date']).strftime('%A'+', %b %d, %Y')
+    else:
+        next_air = ''
+
     context = {
         "item": item[0],
-        'similar': item[1]
+        'similar': item[1],
+        'credits': item[2],
+        'airdate': next_air
     }
 
     return render(request, 'library/detail.html', context)
 
 def detailMusic(request, pk):
-    print(pk)
+
     item = getMusicDetails(pk, '1')
+    albums = getMusicDetails(pk, '2')
+    print(albums)
 
     context = {
         "item": item,
+        'albums': albums
     }
 
     return render(request, 'library/detail_music.html', context)
+

@@ -6,33 +6,66 @@
              class="rounded mx-auto d-block shadow" alt="...">
     </a>
     {% if item.title %}
-        <h1>{{ item.title }}</h1>
+        <h1 class="text-center">{{ item.title }}</h1>
     {% else %}
-        <h1>{{ item.name }}</h1>
+        <h1 class="text-center">{{ item.name }}</h1>
     {% endif %}
-    <div>
-        <img class="mb-2" style="width: 50px"
+    <div class="text-center">
+        <img class="mb-2 " style="width: 50px"
              src="https://image.tmdb.org/t/p/w500/{{ item.production_companies.0.logo_path }}">
     </div>
+    {% if item.next_episode_to_air %}
+        <h5 class="text-center">Next Episode:<strong> {{ airdate }}</strong></h5>
+    {% endif %}
 
     <h3>{{ item.overview }}</h3>
 
-<h2>Similar Titles</h2>
-        {% for sim in similar %}
-            {% if forloop.counter < 8 %}
-                {% if sim.title %}
-                <a href="{% url  'detail' sim.id 1 %}" >
-                 <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
-                </a>
-                    {% else %}
-                    <a href="{% url  'detail' sim.id 2 %}" >
-                 <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
-                </a>
-                    {% endif %}
-            {% endif %}
-        {% endfor %}
 
-    {#    <p>{{ item.release_dates.results.0.release_dates.0.release_date }}</p>#}
+
+
+<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cast</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Similar Titles</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Others Watching</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="row">
+      {% for sim in credits %}
+        {% if forloop.counter < 19 %}
+                    <div style="width: 180px">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ sim.profile_path }}" style="width: 150px">
+                    <h5 class="text-center">{{ sim.name }}</h5>
+                    </div>
+
+        {% endif %}
+    {% endfor %}
+  </div>
+  </div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      {% for sim in similar %}
+        {% if forloop.counter < 50 %}
+            {% if sim.title %}
+                <a href="{% url  'detail' sim.id 1 %}">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
+                </a>
+            {% else %}
+                <a href="{% url  'detail' sim.id 2 %}">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
+                </a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+  </div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">c</div>
+</div>
 
 
 
