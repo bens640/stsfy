@@ -10,6 +10,7 @@ spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(cl
 
 def getTopAlbums():
     sp = spotify.new_releases(country="US")
+
     return sp['albums']['items']
 
 
@@ -67,11 +68,24 @@ def getThisYearMovies():
 def getThisYearTv():
     tv = tmdb.Discover()
     response = tv.tv(year="2021")
-
+    # print(response)
     return tv
 
 def getPersonDetail(id):
     person = tmdb.People(id)
     response = person.info()
     credits = tmdb.People(id).combined_credits()
+
     return [person, credits['cast']]
+
+def getTopRatedMovies():
+    kwarg = 'sort_by: popularity.asc'
+    movies = tmdb.Discover()
+    response = movies.movie()
+
+    return movies
+
+def filterAndSortMovie(**kwargs):
+    movies = tmdb.Discover()
+
+    return 1

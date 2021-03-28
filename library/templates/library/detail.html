@@ -11,11 +11,19 @@
         <h1 class="text-center">{{ item.name }}</h1>
     {% endif %}
     <div class="text-center">
-        <img class="mb-2 " style="width: 50px"
+        {% if item.production_companies.0.logo_path is not None  %}
+        <img class="mb-2 " style="width: 75px"
              src="https://image.tmdb.org/t/p/w500/{{ item.production_companies.0.logo_path }}">
+                {% else %}
+            <h5>{{ item.production_companies.0.name }}</h5>
+    {% endif %}
+
     </div>
-    {% if airdate != None %}
+    {% if airdate is not None %}
         <h5 class="text-center">Next Episode:<strong> {{ airdate }}</strong></h5>
+    {% endif %}
+    {% if release is not None %}
+        <h5 class="text-center">Release Date:<strong> {{ release }}</strong></h5>
     {% endif %}
 
     <h3>{{ item.overview }}</h3>
