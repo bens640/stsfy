@@ -1,18 +1,22 @@
 import json
 from dateutil.parser import *
+from dateutil.utils import today
 
 from django.contrib.sites import requests
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, TemplateView, CreateView, DetailView
 
 from library.services import *
 from stsfy.settings import TMDB_API
+from users.models import Group, Membership
 
 movie_genre_list = {"28": "Action", "12": "Adventure", '16': 'Animation', '35': 'Comedy', '80': 'Crime',
-              '99': 'Documentary', '18': 'Drama', '10751': 'Family', '14': 'Fantasy', '36': 'History', '27': 'Horror',
-              '10402': 'Music', '9648': 'Mystery', '10749': 'Romance', '878': 'Science Fiction', '10770': 'TV Movie',
-              '53': 'Thriller', '10752': 'War', '37': 'Western', }
+                    '99': 'Documentary', '18': 'Drama', '10751': 'Family', '14': 'Fantasy', '36': 'History',
+                    '27': 'Horror',
+                    '10402': 'Music', '9648': 'Mystery', '10749': 'Romance', '878': 'Science Fiction',
+                    '10770': 'TV Movie',
+                    '53': 'Thriller', '10752': 'War', '37': 'Western', }
 
 
 def home(request):
@@ -191,3 +195,41 @@ def filter(request):
     }
 
     return render(request, 'library/test.html', data)
+
+
+class GroupCreateView(CreateView):
+    model = Group
+    template_name = 'library/group_form.html'
+    fields = ['name', 'about']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class GroupListView(ListView):
+    model = Group
+    context_object_name = 'groups'
+    template_name = 'library/groups.html'
+
+
+class GroupDetailView(DetailView):
+    model = Group
+    template_name = 'library/group_detail.html'
+
+    def post(self, request, *args, **kwargs):
+        print(self.kwargs.get('pk'))
+
+        if Group.objects.get(id=self.kwargs.get('pk')):
+            m1 = Membership(person=request.user, group=Group.objects.get(id=self.kwargs.get('pk')), date_joined=today())
+            m1.save()
+        return redirect('groups')
+
+    def get_context_data(self, **kwargs):
+        group = Group.objects.get(pk=self.kwargs.get('pk'))
+        # shows = StShow.objects.filter(group=group)
+        context = {'group': group,
+                   'users': group.members.all(),
+                   # 'shows': shows
+                   }
+        return context

@@ -37,5 +37,22 @@ Genre
 -> number int
 
 
+TODO
+Fix music detail
+add tv filter
+add music filter
+
+show who added media in media card
+
+create media
+Add media to user
+show users in detail page
+
+create group
+add user to group
+show groups in detail page
+
+
+
 
 '''

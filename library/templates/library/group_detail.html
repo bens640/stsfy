@@ -1,0 +1,60 @@
+{% extends "library/base.html" %}
+{% block content %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Group Info</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#group_shows" role="tab" aria-controls="profile" aria-selected="false">Group Shows</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Users</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <h1>{{ group.name }}</h1>
+      <p>{{ group.about }}</p>
+      {% if user not in users %}
+      <form name="add_user_togroup" method="post" action="">
+        {% csrf_token %}
+        <input type="submit" value="Add me to the group" />
+      </form>{% endif %}
+  </div>
+  <div class="tab-pane fade" id="group_shows" role="tabpanel" aria-labelledby="profile-tab">
+<div class="row" >
+            {% for s in shows %}
+                <div class="col" >
+                    <a href="{% url 'tv-detail' s.show.show_num %}">
+                        {% if s.show.poster_path != null %}
+                        <img src="https://image.tmdb.org/t/p/w185/{{ s.show.poster_path }}"  alt="...">
+
+                        {% else %}
+                        <h1>{{ s.show.title }}</h1>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+  </div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+   <ul class="list-group w-25">
+      {% for u in users %}<li class="list-group-item">
+          <img class="rounded-circle account-img" width="25"  src="{{ u.profile.image.url }}">
+           <span> {{ u.username }}</span>
+</li>
+      {% endfor %}
+
+
+
+</ul>
+
+
+
+  </div>
+</div>
+
+
+
+{%  endblock content %}

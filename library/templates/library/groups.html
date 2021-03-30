@@ -1,0 +1,19 @@
+{% extends "library/base.html" %}
+{% block content %}
+    <h2 class="display-2 text-center mb-3">Groups</h2>
+    <div class="card-group">
+        {% for group in groups %}
+            <div class="card text-center">
+                <a class="text-decoration-none" href="{% url 'group-detail' group.id %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ group.name }}</h5>
+                        <p class="card-text">{{ group.about }}</p>
+                    </div>
+                </a>
+            </div>
+            </a>
+        {% endfor %}
+    </div>
+    <a class="btn btn-primary" href="{% url 'group-create' %}">Add a new Group</a>
+
+{% endblock content %}

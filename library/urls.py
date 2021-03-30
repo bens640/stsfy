@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 from . import views
-from .views import SearchResultsView, TestPage
+from .views import SearchResultsView, TestPage, GroupCreateView, GroupListView, GroupDetailView
 
 urlpatterns = [
     path('', views.home, name='library-home'),
@@ -17,5 +17,8 @@ urlpatterns = [
     path('movie/', views.moviePage, name='library-movie'),
     path('music/', views.musicPage, name='library-music'),
     path('test/filter/', views.filter, name='filter'),
+    path('groups/', GroupListView.as_view(), name='groups'),
+    path('group/new/', GroupCreateView.as_view(), name='group-create'),
+    path('group/<int:pk>/', GroupDetailView.as_view(), name='group-detail'),
 
 ]
