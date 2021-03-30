@@ -36,7 +36,6 @@ def getItemDetails(pk, itemType):
         return [tv, tv.similar()['results'], tv.credits()['cast']]
 
 
-
 def getMusicDetails(pk, itemType):
     if itemType == '1':
         sp = spotify.artist(pk)
@@ -45,6 +44,7 @@ def getMusicDetails(pk, itemType):
         sp = spotify.artist_albums(pk)
         # print(sp)
         return sp
+
 
 def searchMovies(q):
     movies = tmdb.Search()
@@ -71,12 +71,14 @@ def getThisYearTv():
     # print(response)
     return tv
 
+
 def getPersonDetail(id):
     person = tmdb.People(id)
     response = person.info()
     credits = tmdb.People(id).combined_credits()
 
     return [person, credits['cast']]
+
 
 def getTopRatedMovies():
     kwarg = 'sort_by: popularity.asc'
@@ -85,7 +87,10 @@ def getTopRatedMovies():
 
     return movies
 
-def filterAndSortMovie(**kwargs):
-    movies = tmdb.Discover()
 
-    return 1
+def filterAndSortMovie(*kwargs):
+    main_filter = {}
+    for filter, value in kwargs:
+        main_filter[filter] = value
+
+    return main_filter

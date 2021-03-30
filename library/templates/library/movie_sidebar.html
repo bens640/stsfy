@@ -1,0 +1,57 @@
+
+
+<form method="post" action="{% url 'filter' %}">
+        {% csrf_token %}
+<h6>Sort</h6>
+<div style="width:300px; background-color:#d5d5d5; ">
+    <nav class="nav flex-column">
+        <a class="nav-link active" href="#">
+            <select name="sort_by" class=" form-control">
+                        <option value="popularity.desc">Popularity Desc</option>
+                        <option value="popularity.asc">Popularity Asc</option>
+                        <option value="vote_average.desc">Rating Desc</option>
+                        <option value="vote_average.asc">Rating Asc</option>
+                        <option value="primary_release_date.desc">Release Date Desc</option>
+                        <option value="primary_release_date.asc">Release Date Asc</option>
+                        <option value="original_title.desc">Title Desc</option>
+                        <option value="original_title.asc">Title Asc</option>
+            </select>
+        </a>
+    </nav>
+</div>
+{# , , , revenue.desc, , , , , vote_average.asc, vote_average.desc, vote_count.asc, vote_count.desc#}
+{#default: popularity.desc#}
+
+
+ <h6>Filter </h6>
+<div style="width:300px; background-color:#d5d5d5; ">
+<ul class="nav flex-column">
+  <li class="nav-item">
+    <a class="nav-link " href="#">
+        <select name="language" class=" form-control">
+                        <option value="en">English</option>
+                        <option value="he">Hebrew</option>
+                        <option value="es">Spanish</option>
+                    </select></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#"><select multiple name="genres" class=" form-control">
+                    {% for id, name in genre_list.items %}
+                     <option value={{ id }}>{{ name }}</option>
+                    {% endfor %}
+
+                </select></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#"><label for="year">Year</label>
+                <input type="range" class="form-control-range" id="year" name="primary_release_year" min="1960"
+                       max="2021" value="2021" oninput="this.nextElementSibling.value = this.value">
+                <output>2021</output></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="#" tabindex="-1" >  <input type="submit" value="Submit"></a>
+  </li>
+
+</ul>
+</div>
+</form>

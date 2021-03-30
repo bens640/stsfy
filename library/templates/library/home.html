@@ -13,7 +13,7 @@
                {% endif %}
         {% endfor %}
     </div>
-    <h1>TV</h1>
+    <a class="nav-link" href="{% url 'library-tv' %}"><h1 >TV</h1></a>
            <div class="row row-cols-1 row-cols-md-4">
            {% for x in tv.results %}
                {% if forloop.counter < 5 %}
@@ -21,7 +21,7 @@
                {% endif %}
         {% endfor %}
     </div>
-    <h1>Music</h1>
+    <a class="nav-link" href="{% url 'library-music' %}"><h1 >Music</h1></a>
     <div class="row row-cols-1 row-cols-md-4">
            {% for x in music %}
                {% if forloop.counter < 5 %}

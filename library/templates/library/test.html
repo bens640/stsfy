@@ -1,31 +1,21 @@
 {% extends "library/base.html" %}
 {% load static %}
 {% block content %}
-<form method = "post" action = "{% url 'filter' %}">
-{% csrf_token %}
-    <h6>Filter </h6>
-<select name = "year_filter" >
-                    <option value="2000">2000</option>
-                    <option value="2010">2010</option>
-                    <option value="2020">2020</option>
-</select>
-    <select name = "lang_filter" >
-                    <option value="en">English</option>
-                    <option value="he">Hebrew</option>
-                    <option value="es">Spanish</option>
-</select>
-    <input type="range" name = "slider" class="custom-range" value="2" min="0" max="5" id="customRange2">
 
-<input  type = "submit" value="Submit">
-</form>
+    {% block sidebar %}
+    <nav id="sidebar" class="col-sm px-lg-5">
+        {% include "library/movie_sidebar.html" %}
+    </nav>
+    {% endblock %}
 
-         <div class="row">
 
-    </div>
-           <div class="row row-cols-1 row-cols-md-4">
-           {% for x in movies.results %}
 
-                    {% include "library/homelist_movie_base.html" %}
+
+
+    <div class="row row-cols-1 row-cols-md-4">
+        {% for x in movies.results %}
+
+            {% include "library/homelist_movie_base.html" %}
 
         {% endfor %}
     </div>
