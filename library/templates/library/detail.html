@@ -89,7 +89,14 @@
         {% endif %}
     {% endfor %}
   </div>
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">c</div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+     {% for other in other_watching %}
+
+                    <img class="rounded-circle account-img" width="75" src="{{ other.owned_by.profile.image.url  }}">
+         <p> {{ other.owned_by}}</p>
+    {% endfor %}
+
+  </div>
 </div>
 
 

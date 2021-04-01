@@ -102,7 +102,8 @@ def detail(request, pk, itemType=1):
     next_air = None
     release_date = None
     item = getItemDetails(pk, itemType)
-    x = getUserItem(request, item[0])[1]
+    x = getUserItem(request, item[0])
+    others_watching = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
 
     if 'next_episode_to_air' in item[0].info():
         if item[0].info()['next_episode_to_air'] is not None:
@@ -119,7 +120,7 @@ def detail(request, pk, itemType=1):
         return redirect(detail, item[0].id, '2')
     elif request.POST.get('remove_item', ""):
         remove_item(request, item[0])
-
+    print(others_watching)
 
     context = {
         "item": item[0],
@@ -127,7 +128,8 @@ def detail(request, pk, itemType=1):
         'credits': item[2],
         'airdate': next_air,
         'release': release_date,
-        'owned': x,
+        'owned': x[1],
+        'other_watching': others_watching,
         # 'user_groups': x[2],
     }
 
