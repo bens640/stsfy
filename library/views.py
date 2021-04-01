@@ -7,16 +7,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, CreateView, DetailView
 
+from library.models import Item, UserItem
 from library.services import *
 from stsfy.settings import TMDB_API
 from users.models import Group, Membership
-
-movie_genre_list = {"28": "Action", "12": "Adventure", '16': 'Animation', '35': 'Comedy', '80': 'Crime',
-                    '99': 'Documentary', '18': 'Drama', '10751': 'Family', '14': 'Fantasy', '36': 'History',
-                    '27': 'Horror',
-                    '10402': 'Music', '9648': 'Mystery', '10749': 'Romance', '878': 'Science Fiction',
-                    '10770': 'TV Movie',
-                    '53': 'Thriller', '10752': 'War', '37': 'Western', }
+from .services import add_item
 
 
 def home(request):
@@ -38,7 +33,7 @@ def testPage(request):
     tv = getThisYearTv()
     music = getTopAlbums()
     item = getItemDetails(456, '2')
-    genre_lists = movie_genre_list
+    genre_lists = getGenres('movie')
 
     data = {
         "movies": movies,
@@ -107,6 +102,8 @@ def detail(request, pk, itemType=1):
     next_air = None
     release_date = None
     item = getItemDetails(pk, itemType)
+    x = getUserItem(request, item[0])[1]
+
     if 'next_episode_to_air' in item[0].info():
         if item[0].info()['next_episode_to_air'] is not None:
             next_air = parse(item[0].info()['next_episode_to_air']['air_date']).strftime('%A' + ', %b %d, %Y')
@@ -116,18 +113,28 @@ def detail(request, pk, itemType=1):
         if item[0].info()['release_date'] is not None:
             release_date = parse(item[0].info()['release_date']).strftime('%A' + ', %b %d, %Y')
 
+    if request.POST.get('add_item', ""):
+        add_item(request, item[0], itemType)
+
+        return redirect(detail, item[0].id, '2')
+    elif request.POST.get('remove_item', ""):
+        remove_item(request, item[0])
+
+
     context = {
         "item": item[0],
         'similar': item[1],
         'credits': item[2],
         'airdate': next_air,
-        'release': release_date
+        'release': release_date,
+        'owned': x,
+        # 'user_groups': x[2],
     }
 
     return render(request, 'library/detail.html', context)
 
 
-def detailMusic(request, pk):
+def detailArtistMusic(request, pk):
     item = getMusicDetails(pk, '1')
     albums = getMusicDetails(pk, '2')
 
@@ -136,7 +143,18 @@ def detailMusic(request, pk):
         'albums': albums
     }
 
-    return render(request, 'library/detail_music.html', context)
+    return render(request, 'library/detail_music_artist.html', context)
+
+
+def detailAlbumMusic(request, pk):
+    sp = spotify.album(pk)
+
+    context = {
+        "item": sp,
+
+    }
+
+    return render(request, 'library/detail_music_album.html', context)
 
 
 def personDetail(request, pk):
@@ -151,30 +169,34 @@ def personDetail(request, pk):
 
 def tvPage(request):
     tv = getThisYearTv()
+    genre_lists = getGenres('tv')
     context = {
-        'tv': tv
+        'tv': tv,
+        'genre_list': genre_lists,
     }
     return render(request, 'library/tv_page.html', context)
 
 
 def moviePage(request):
     movies = getTopRatedMovies()
+    genre_lists = getGenres('movie')
     context = {
-        'movies': movies
+        'movies': movies,
+        'genre_list': genre_lists,
     }
     return render(request, 'library/movie_page.html', context)
 
 
 def musicPage(request):
+    music = getTopAlbums()
     context = {
+        'music': music
     }
     return render(request, 'library/music_page.html', context)
 
 
-def filter(request):
-    genre_lists = movie_genre_list
-
-    movies = getThisYearMovies()
+def filter(request, type):
+    genre_lists = getGenres(type)
     # genres = request.POST.getlist('genres')
     genres = ', '.join([str(elem) for elem in request.POST.getlist('genres')])
 
@@ -185,16 +207,20 @@ def filter(request):
         if request.POST.get("genres"):
             filter_request.pop("genres")
         filter_request['with_genres'] = genres
-        print(filter_request.dict())
+        # print(filter_request.dict())
 
     movies = tmdb.Discover().movie(**filter_request)
-
+    tv = tmdb.Discover().tv(**filter_request)
+    # print(tv)
     data = {
         "movies": movies,
+        'tv': tv,
         'genre_list': genre_lists,
     }
-
-    return render(request, 'library/test.html', data)
+    if type == 'movie':
+        return render(request, 'library/movie_page.html', data)
+    elif type == 'tv':
+        return render(request, 'library/tv_page.html', data)
 
 
 class GroupCreateView(CreateView):

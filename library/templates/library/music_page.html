@@ -2,7 +2,10 @@
 {% load static %}
 {% block content %}
 
-<h1>Music Page</h1>
-
-
+    <h1>Music Page</h1>
+    <div class="row row-cols-1 row-cols-md-4">
+        {% for x in music %}
+            {% include "library/homelist_music_base.html" %}
+        {% endfor %}
+    </div>
 {% endblock content %}

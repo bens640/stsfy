@@ -30,14 +30,15 @@
                     {% include "library/homelist_music_base.html" %}
                {% endif %}
         {% endfor %}
-
-{#      <div class="row row-cols-1 row-cols-md-4">#}
-{#           {% for x in items.albums %}#}
-{#               {% if forloop.counter < 5 %}#}
-{#                    {% include "library/homelist_music_base.html" %}#}
-{#               {% endif %}#}
-{#        {% endfor %}#}
-{#  </div>#}
+</div>
+    <h2>Albums</h2>
+      <div class="row row-cols-1 row-cols-md-4">
+           {% for x in items.albums %}
+               {% if forloop.counter < 5 %}
+                    {% include "library/homelist_music_base.html" %}
+               {% endif %}
+        {% endfor %}
+  </div>
 
 
 

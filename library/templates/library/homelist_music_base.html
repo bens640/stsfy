@@ -5,7 +5,11 @@
         <div class="card-body text-center" >
                 <h5 class="card-title">{{ x.name }}</h5>
                 <h6 class="card-body">{{ x.artists.0.name }}</h6>
-            <a href="{% url  'detail-music' x.artists.0.id %}" class="stretched-link"> </a>
+            {%  if x.artists.0.id is not None %}
+                <a href="{% url  'detail-artist-music' x.artists.0.id %}" class="stretched-link"> </a>
+                {%  else %}
+                <a href="{% url  'detail-album-music' x.id %}" class="stretched-link"> </a>
+            {% endif %}
         </div>
     </div>
 </div>

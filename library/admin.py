@@ -1,6 +1,6 @@
 from django.contrib import admin
 import django.apps
-from library.models import Item
+from library.models import Item, UserItem
 
 # admin.site.unregister(django.contrib.auth.models.Group)
 
@@ -18,7 +18,7 @@ from library.models import Item
 
 admin.site.register(Item)
 
-
+admin.site.register(UserItem)
 
 
 

@@ -1,7 +1,13 @@
 import tmdbsimple as tmdb
 import spotipy
+from django.contrib import messages
 from spotipy.oauth2 import SpotifyClientCredentials
+
+from library.models import UserItem, Item
 from stsfy.settings import TMDB_API, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from dateutil.parser import *
+
+from users.models import Membership
 
 tmdb.API_KEY = TMDB_API
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID,
@@ -10,12 +16,12 @@ spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(cl
 
 def getTopAlbums():
     sp = spotify.new_releases(country="US")
-
+    # print(sp)
     return sp['albums']['items']
 
 
 def musicSearch(q, musicType):
-    if musicType == 'artist':
+    if musicType == 'artists':
         sp = spotify.search(q='artist:' + q, type='artist')
         return sp['artists']['items']
     else:
@@ -43,6 +49,10 @@ def getMusicDetails(pk, itemType):
     elif itemType == '2':
         sp = spotify.artist_albums(pk)
         # print(sp)
+        return sp
+    elif itemType == '3':
+        sp = spotify.album(pk)
+
         return sp
 
 
@@ -88,9 +98,56 @@ def getTopRatedMovies():
     return movies
 
 
-def filterAndSortMovie(*kwargs):
-    main_filter = {}
-    for filter, value in kwargs:
-        main_filter[filter] = value
+def getGenres(type):
+    if type == 'movie':
+        g = tmdb.Genres()
+        response = g.movie_list()
+        return response.items()
+    elif type == 'tv':
+        g = tmdb.Genres()
+        response = g.tv_list()
+        return response.items()
 
-    return main_filter
+
+def getUserItem(request, item):
+    current_item = Item.objects.filter(item_id=item.id).first()
+
+    if request.user.is_authenticated:
+        user_groups = Membership.objects.filter(person=request.user)
+        user_has_item = UserItem.objects.filter(item=current_item).filter(owned_by=request.user)
+
+    else:
+        user_groups = []
+        user_has_item = []
+    return [current_item, user_has_item, user_groups]
+
+
+def add_item(request, item, item_type):
+    item_info = getUserItem(request, item)
+
+    if item_type == '1':
+        print('movie')
+    elif item_type == '2':
+
+        if item_info[1]:
+            print('exists?')
+            messages.success(request, item.name + ' is already in your watchlist')
+        elif Item.objects.filter(item_id=item.id).exists():
+            s1 = Item.objects.get(item_id=item.id)
+            ss = UserItem(item=s1, owned_by=request.user)
+            ss.save()
+            messages.success(request, item.name + ' has been added')
+        else:
+            s = Item(owned_by=request.user, item_id=item.id, name=item.name)
+            s.save()
+            ss = UserItem(item=s, owned_by=request.user)
+            ss.save()
+            messages.success(request, item.name + ' has been added')
+            print("Created and saved")
+    return item_info
+
+def remove_item(request, item):
+    current_item = Item.objects.filter(item_id=item.id).first()
+    item = UserItem.objects.filter(item=current_item, owned_by=request.user)
+    item.delete()
+    messages.warning(request, 'This show has been removed from your watchlist')

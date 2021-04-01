@@ -10,20 +10,14 @@
     </div>
 
 
-
+</div>
 <div class="row justify-content-center">
 
-      <iframe src="https://open.spotify.com/embed/artist/{{ item.id }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      <iframe src="https://open.spotify.com/embed/album/{{ item.id }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 </div>
 
-</div>
-<h2>Albums</h2>
 
-<div >
-    {% for x in albums.items %}
-        {% if x.album_type == "album" %}
-        <img style="width: 150px" src={{ x.images.0.url}} >
-        {% endif %}
-    {% endfor %}
-    </div>
+
+
+
 {% endblock content %}

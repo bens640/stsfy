@@ -3,10 +3,11 @@
 {% block content %}
 
 <h1>Movie Page</h1>
-
-     <div class="row">
-
-    </div>
+        {% block sidebar %}
+    <nav id="sidebar" class="col-sm px-lg-5">
+        {% include "library/filter.html" %}
+    </nav>
+    {% endblock %}
            <div class="row row-cols-1 row-cols-md-4">
            {% for x in movies.results %}
 
