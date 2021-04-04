@@ -5,7 +5,7 @@
     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Group Info</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#group_shows" role="tab" aria-controls="profile" aria-selected="false">Group Shows</a>
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#group_shows" role="tab" aria-controls="profile" aria-selected="false">Group Library</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Users</a>
@@ -23,16 +23,9 @@
   </div>
   <div class="tab-pane fade" id="group_shows" role="tabpanel" aria-labelledby="profile-tab">
 <div class="row" >
-            {% for s in shows %}
+            {% for item in items %}
                 <div class="col" >
-                    <a href="{% url 'tv-detail' s.show.show_num %}">
-                        {% if s.show.poster_path != null %}
-                        <img src="https://image.tmdb.org/t/p/w185/{{ s.show.poster_path }}"  alt="...">
-
-                        {% else %}
-                        <h1>{{ s.show.title }}</h1>
-                        {% endif %}
-                    </a>
+                      <p>{{ item.item.name }}</p>
                 </div>
             {% endfor %}
         </div>
@@ -45,9 +38,6 @@
            <span> {{ u.username }}</span>
 </li>
       {% endfor %}
-
-
-
 </ul>
 
 

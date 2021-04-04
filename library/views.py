@@ -34,13 +34,18 @@ def testPage(request):
     music = getTopAlbums()
     item = getItemDetails(456, '2')
     genre_lists = getGenres('movie')
-
+    items = UserItem.objects.filter(owned_by=request.user)
+    unused_items = UserItem.objects.filter(owned_by=request.user, consumed=False)
+    used_items = UserItem.objects.filter(owned_by=request.user, consumed=True)
     data = {
         "movies": movies,
         'tv': tv,
         'music': music,
         'item': item[0],
-        'genre_list': genre_lists
+        'items': items,
+        'genre_list': genre_lists,
+        'unused_items': unused_items,
+        'used_items': used_items
 
     }
     for x in request.POST:
@@ -102,7 +107,10 @@ def detail(request, pk, itemType=1):
     next_air = None
     release_date = None
     item = getItemDetails(pk, itemType)
-    x = getUserItem(request, item[0])
+    x = getUserItem(request, pk)
+    current_item = []
+    if x[1]: current_item = x[1][0]
+
     others_watching = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
 
     if 'next_episode_to_air' in item[0].info():
@@ -117,11 +125,17 @@ def detail(request, pk, itemType=1):
     if request.POST.get('add_item', ""):
         add_item(request, item[0], itemType)
 
-        return redirect(detail, item[0].id, '2')
+        return redirect(detail, item[0].id, itemType)
     elif request.POST.get('remove_item', ""):
         remove_item(request, item[0])
-    print(others_watching)
+        return redirect(detail, pk, itemType)
+    elif request.POST.get('add_group', ""):
+        group_name = request.POST.get('group_add', "")
+        toggle_group(request, pk, group_name)
 
+    if request.POST.get('consumed', ""):
+        current_item.consumed ^= True
+        current_item.save()
     context = {
         "item": item[0],
         'similar': item[1],
@@ -130,19 +144,40 @@ def detail(request, pk, itemType=1):
         'release': release_date,
         'owned': x[1],
         'other_watching': others_watching,
-        # 'user_groups': x[2],
+        'groups': x[2],
+        'current_item': current_item,
     }
 
     return render(request, 'library/detail.html', context)
 
 
-def detailArtistMusic(request, pk):
+def detailArtistMusic(request, pk,itemType='1'):
     item = getMusicDetails(pk, '1')
     albums = getMusicDetails(pk, '2')
+    x = getUserItem(request, pk)
+
+    current_item = []
+    if x[1]: current_item = x[1][0]
+
+    if request.POST.get('add_item', ""):
+        add_music_item(request, pk, itemType)
+        return redirect(detailArtistMusic, pk)
+    elif request.POST.get('remove_item', ""):
+        remove_music_item(request, pk)
+        return redirect(detailArtistMusic, pk)
+    elif request.POST.get('add_group', ""):
+        group_name = request.POST.get('group_add', "")
+        toggle_group(request, pk, group_name)
+
+    others_listening = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
 
     context = {
         "item": item,
-        'albums': albums
+        'albums': albums,
+        'groups': x[2],
+        'current_item': current_item,
+        'others_listening': others_listening,
+        'owned': x[1],
     }
 
     return render(request, 'library/detail_music_artist.html', context)
@@ -169,60 +204,32 @@ def personDetail(request, pk):
     return render(request, 'library/person_detail.html', context)
 
 
-def tvPage(request):
-    tv = getThisYearTv()
-    genre_lists = getGenres('tv')
+def movie_page(request):
+    sort_filter = add_filter(request, 'movie')
     context = {
-        'tv': tv,
-        'genre_list': genre_lists,
-    }
-    return render(request, 'library/tv_page.html', context)
-
-
-def moviePage(request):
-    movies = getTopRatedMovies()
-    genre_lists = getGenres('movie')
-    context = {
-        'movies': movies,
-        'genre_list': genre_lists,
+        'movies': sort_filter[1],
+        'genre_list': sort_filter[0],
     }
     return render(request, 'library/movie_page.html', context)
 
 
-def musicPage(request):
-    music = getTopAlbums()
+def tv_page(request):
+    sort_filter = add_filter(request, 'tv')
     context = {
-        'music': music
+        'tv': sort_filter[2],
+        'genre_list': sort_filter[0],
+    }
+    return render(request, 'library/tv_page.html', context)
+
+
+def music_page(request):
+    music = getTopAlbums()
+    sort_filter = add_music_filter(request)
+    context = {
+        'music': sort_filter[1],
+        'categories': sort_filter[0]
     }
     return render(request, 'library/music_page.html', context)
-
-
-def filter(request, type):
-    genre_lists = getGenres(type)
-    # genres = request.POST.getlist('genres')
-    genres = ', '.join([str(elem) for elem in request.POST.getlist('genres')])
-
-    filter_request = request.POST.copy()
-
-    if request.method == 'POST':
-        filter_request.pop("csrfmiddlewaretoken")
-        if request.POST.get("genres"):
-            filter_request.pop("genres")
-        filter_request['with_genres'] = genres
-        # print(filter_request.dict())
-
-    movies = tmdb.Discover().movie(**filter_request)
-    tv = tmdb.Discover().tv(**filter_request)
-    # print(tv)
-    data = {
-        "movies": movies,
-        'tv': tv,
-        'genre_list': genre_lists,
-    }
-    if type == 'movie':
-        return render(request, 'library/movie_page.html', data)
-    elif type == 'tv':
-        return render(request, 'library/tv_page.html', data)
 
 
 class GroupCreateView(CreateView):
@@ -255,9 +262,9 @@ class GroupDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         group = Group.objects.get(pk=self.kwargs.get('pk'))
-        # shows = StShow.objects.filter(group=group)
+        group_items = UserItem.objects.filter(group=group)
         context = {'group': group,
                    'users': group.members.all(),
-                   # 'shows': shows
+                   'items': group_items,
                    }
         return context

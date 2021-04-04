@@ -12,12 +12,12 @@
         <h1 class="text-center">{{ item.name }}</h1>
     {% endif %}
     <div class="text-center">
-        {% if item.production_companies.0.logo_path is not None  %}
-        <img class="mb-2 " style="width: 75px"
-             src="https://image.tmdb.org/t/p/w500/{{ item.production_companies.0.logo_path }}">
-                {% else %}
+        {% if item.production_companies.0.logo_path is not None %}
+            <img class="mb-2 " style="width: 75px"
+                 src="https://image.tmdb.org/t/p/w500/{{ item.production_companies.0.logo_path }}">
+        {% else %}
             <h5>{{ item.production_companies.0.name }}</h5>
-    {% endif %}
+        {% endif %}
 
     </div>
     {% if airdate is not None %}
@@ -34,70 +34,87 @@
             {% csrf_token %}
             {% if owned.0 %}
                 <input type="submit" name="remove_item" class="btn btn-warning" value="Remove from my library">
+                <div style="width: 200px">
+                <select name="group_add" class=" form-control">
+                    {% for group in groups %}
+                        <option value={{ group.group.name }}>{{ group.group.name }}</option>
+                          {% endfor %}
+                </select>
+                </div>
 
+    <input type="submit" name="add_group" class="btn btn-primary" value="Add this to group">
+{%  if current_item.consumed is False %}
+                 <input type="submit" name="consumed" class="btn btn-dark" value="I have watched this">
+    {% else %}
+    <input type="submit" name="consumed" class="btn btn-light" value="I have not watched this">
+     {% endif %}
             {% else %}
                 <input type="submit" name="add_item" class="btn btn-primary" value="Add to my library">
 
             {% endif %}
         </form>
- {% endif %}
+    {% endif %}
 
-<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cast</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Similar Titles</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Others Watching</a>
-  </li>
-</ul>
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+               aria-selected="true">Cast</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+               aria-selected="false">Similar Titles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+               aria-selected="false">Others Watching</a>
+        </li>
+    </ul>
 
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <div class="row">
-      {% for person in credits %}
-        {% if forloop.counter < 19 %}
-                    <div style="width: 180px">
-                    <a href="{% url  'detail-person' person.id  %}">
-                        {% if person.profile_path is not null  %}
-                            <img src="https://image.tmdb.org/t/p/w500/{{ person.profile_path }}" style="width: 150px">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+                {% for person in credits %}
+                    {% if forloop.counter < 19 %}
+                        <div style="width: 180px">
+                            <a href="{% url  'detail-person' person.id %}">
+                                {% if person.profile_path is not null %}
+                                    <img src="https://image.tmdb.org/t/p/w500/{{ person.profile_path }}"
+                                         style="width: 150px">
                                 {% else %}
-                             <img src="{{ '/media/' }}/actor_default.jpg" style="width: 150px">
+                                    <img src="{{ '/media/' }}/actor_default.jpg" style="width: 150px">
                                 {% endif %}
-                    <h5 class="text-center">{{ person.name }}</h5>
-                    </a>
-                    </div>
+                                <h5 class="text-center">{{ person.name }}</h5>
+                            </a>
+                        </div>
 
-        {% endif %}
-    {% endfor %}
-  </div>
-  </div>
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-      {% for sim in similar %}
-        {% if forloop.counter < 50 %}
-            {% if sim.title %}
-                <a href="{% url  'detail' sim.id 1 %}">
-                    <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
-                </a>
-            {% else %}
-                <a href="{% url  'detail' sim.id 2 %}">
-                    <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
-                </a>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-  </div>
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-     {% for other in other_watching %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {% for sim in similar %}
+                {% if forloop.counter < 50 %}
+                    {% if sim.title %}
+                        <a href="{% url  'detail' sim.id 1 %}">
+                            <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
+                        </a>
+                    {% else %}
+                        <a href="{% url  'detail' sim.id 2 %}">
+                            <img src="https://image.tmdb.org/t/p/w500/{{ sim.poster_path }}" style="width: 150px">
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            {% for other in other_watching %}
 
-                    <img class="rounded-circle account-img" width="75" src="{{ other.owned_by.profile.image.url  }}">
-         <p> {{ other.owned_by}}</p>
-    {% endfor %}
+                <img class="rounded-circle account-img" width="75" src="{{ other.owned_by.profile.image.url }}">
+                <p> {{ other.owned_by }}</p>
+            {% endfor %}
 
-  </div>
-</div>
+        </div>
+    </div>
 
 
 

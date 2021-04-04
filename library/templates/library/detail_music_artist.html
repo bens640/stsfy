@@ -1,29 +1,59 @@
 {% extends "library/base.html" %}
 {% load static %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-4">
-          <a href="{{ item.external_urls.spotify }}">
-                  <img  src={{ item.images.0.url }} style="width:250px" class="rounded mx-auto d-block shadow" alt="...">
-    </a>
-        <h1>{{ item.name }}</h1>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <a href="{{ item.external_urls.spotify }}">
+                <img src={{ item.images.0.url }} style="width:250px" class="rounded mx-auto d-block shadow" alt="...">
+            </a>
+            <h1>{{ item.name }}</h1>
+        </div>
+
+
+        <div class="row justify-content-center">
+
+            <iframe src="https://open.spotify.com/embed/artist/{{ item.id }}" width="300" height="380" frameborder="0"
+                    allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+
     </div>
 
 
+    {% if user.is_authenticated %}
+        <form action="#" method="post" class="mb-2">
+            {% csrf_token %}
+            {% if owned.0 %}
+                <input type="submit" name="remove_item" class="btn btn-warning" value="Remove from my library">
+                <div style="width: 200px">
+                <select name="group_add" class=" form-control">
+                    {% for group in groups %}
+                        <option value={{ group.group.name }}>{{ group.group.name }}</option>
+                          {% endfor %}
+                </select>
+                </div>
 
-<div class="row justify-content-center">
+    <input type="submit" name="add_group" class="btn btn-primary" value="Add this to group">
+{%  if current_item.consumed is False %}
+                 <input type="submit" name="consumed" class="btn btn-dark" value="I have watched this">
+    {% else %}
+    <input type="submit" name="consumed" class="btn btn-light" value="I have not watched this">
+     {% endif %}
+            {% else %}
+                <input type="submit" name="add_item" class="btn btn-primary" value="Add to my library">
 
-      <iframe src="https://open.spotify.com/embed/artist/{{ item.id }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-</div>
+            {% endif %}
+        </form>
+    {% endif %}
 
-</div>
-<h2>Albums</h2>
 
-<div >
-    {% for x in albums.items %}
-        {% if x.album_type == "album" %}
-        <a href={%   url 'detail-album-music' x.id%}><img style="width: 150px" src={{ x.images.0.url}} ></a>
-        {% endif %}
-    {% endfor %}
+
+
+    <h2>Albums</h2>
+    <div>
+        {% for x in albums.items %}
+            {% if x.album_type == "album" %}
+                <a href={% url 'detail-album-music' x.id %}><img style="width: 150px" src={{ x.images.0.url }}></a>
+            {% endif %}
+        {% endfor %}
     </div>
 {% endblock content %}

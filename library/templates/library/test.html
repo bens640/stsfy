@@ -2,25 +2,67 @@
 {% load static %}
 {% block content %}
 
-    {% block sidebar %}
-    <nav id="sidebar" class="col-sm px-lg-5">
-        {% include "library/filter.html" %}
-    </nav>
-    {% endblock %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My info</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#group_shows" role="tab" aria-controls="profile" aria-selected="false">My Library</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#used" role="tab" aria-controls="contact" aria-selected="false">My unwatched</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#unused" role="tab" aria-controls="contact" aria-selected="false">My watched</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <h1>{{ group.name }}</h1>
+      <p>{{ group.about }}</p>
+      {% if user not in users %}
+      <form name="add_user_togroup" method="post" action="">
+        {% csrf_token %}
+        <input type="submit" value="Add me to the group" />
+      </form>{% endif %}
+  </div>
+
+  <div class="tab-pane fade" id="group_shows" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="row" >
+            {% for item in items %}
+                <div class="col" >
+                      <p>{{ item.item.name }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+  </div>
+
+  <div class="tab-pane fade" id="used" role="tabpanel" aria-labelledby="contact-tab">
+   <ul class="list-group w-25">
+      {% for u in users %}<li class="list-group-item">
+          <img class="rounded-circle account-img" width="25"  src="{{ u.profile.image.url }}">
+           <span> {{ u.username }}</span>
+</li>
+      {% endfor %}
+     <div class="tab-pane fade" id="unused" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="row" >
+            {% for item in unused_items %}
+                <div class="col" >
+                      <p>{{ item.item.name }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+  </div>
+
+</ul>
 
 
 
-
-
-    <div class="row row-cols-1 row-cols-md-4">
-        {% for x in movies.results %}
-
-            {% include "library/homelist_movie_base.html" %}
-
-        {% endfor %}
-    </div>
-
-
+  </div>
+</div>
 
 
 {% endblock content %}

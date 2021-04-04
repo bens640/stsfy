@@ -3,6 +3,12 @@
 {% block content %}
 
     <h1>Music Page</h1>
+    {% block sidebar %}
+    <nav id="sidebar" class="col-sm px-lg-5">
+        {% include "library/filter.html" %}
+    </nav>
+    {% endblock %}
+
     <div class="row row-cols-1 row-cols-md-4">
         {% for x in music %}
             {% include "library/homelist_music_base.html" %}

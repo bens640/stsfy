@@ -7,7 +7,7 @@ from library.models import UserItem, Item
 from stsfy.settings import TMDB_API, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 from dateutil.parser import *
 
-from users.models import Membership
+from users.models import Membership, Group
 
 tmdb.API_KEY = TMDB_API
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID,
@@ -38,8 +38,11 @@ def getItemDetails(pk, itemType):
     elif itemType == '2':
         tv = tmdb.TV(pk)
         response = tv.info()
-
         return [tv, tv.similar()['results'], tv.credits()['cast']]
+    elif itemType == '3':
+        artist = spotify.artist(pk)
+        albums = spotify.artist_albums(pk)
+        return [artist, albums, ]
 
 
 def getMusicDetails(pk, itemType):
@@ -109,9 +112,10 @@ def getGenres(type):
         return response.items()
 
 
-def getUserItem(request, item):
-    current_item = Item.objects.filter(item_id=item.id).first()
+def getUserItem(request, pk):
 
+    current_item = Item.objects.filter(item_id=pk).first()
+    print(current_item)
     if request.user.is_authenticated:
         user_groups = Membership.objects.filter(person=request.user)
         user_has_item = UserItem.objects.filter(item=current_item).filter(owned_by=request.user)
@@ -126,7 +130,22 @@ def add_item(request, item, item_type):
     item_info = getUserItem(request, item)
 
     if item_type == '1':
-        print('movie')
+        if item_info[1]:
+            print('exists?')
+            messages.success(request, item.title + ' is already in your watchlist')
+        elif Item.objects.filter(item_id=item.id).exists():
+            s1 = Item.objects.filter(item_id=item.id).first()
+            ss = UserItem(item=s1, owned_by=request.user)
+            ss.save()
+            messages.success(request, item.title + ' has been added')
+        else:
+            s = Item(owned_by=request.user, item_id=item.id, name=item.title)
+            s.save()
+            ss = UserItem(item=s, owned_by=request.user)
+            ss.save()
+            messages.success(request, item.title + ' has been added')
+            print("Created and saved")
+
     elif item_type == '2':
 
         if item_info[1]:
@@ -144,10 +163,118 @@ def add_item(request, item, item_type):
             ss.save()
             messages.success(request, item.name + ' has been added')
             print("Created and saved")
+
+    # elif item_type == '3':
+
     return item_info
+
 
 def remove_item(request, item):
     current_item = Item.objects.filter(item_id=item.id).first()
     item = UserItem.objects.filter(item=current_item, owned_by=request.user)
     item.delete()
-    messages.warning(request, 'This show has been removed from your watchlist')
+    messages.warning(request, 'This item has been removed from your library')
+
+def remove_music_item(request, pk):
+    current_item = Item.objects.filter(item_id=pk).first()
+    item = UserItem.objects.filter(item=current_item, owned_by=request.user)
+    item.delete()
+    messages.warning(request, 'This item has been removed from your library')
+
+
+def toggle_group(request, pk, group):
+    current_item = Item.objects.filter(item_id=pk).first()
+    cur_group = Group.objects.get(name=group)
+    try:
+        users_item = UserItem.objects.get(item=current_item, owned_by=request.user, group_id=cur_group.id)
+    except:
+        users_item = UserItem.objects.get(item=current_item, owned_by=request.user)
+    if users_item.group is None:
+        users_item.group = cur_group
+        messages.success(request, current_item.name + ' has been added to ' + group + '\'s library')
+    else:
+
+        users_item.group = None
+        messages.warning(request, current_item.name + ' has been removed from ' + group + '\'s library')
+    users_item.save()
+
+
+def add_filter(request, type):
+    genre_lists = []
+    genres = []
+    movies = getTopRatedMovies()
+
+    genre_lists = getGenres(type)
+    genres = ', '.join([str(elem) for elem in request.POST.getlist('genres')])
+
+    filter_request = request.POST.copy()
+    if request.method == 'POST':
+        filter_request.pop("csrfmiddlewaretoken")
+        if request.POST.get("genres"):
+            filter_request.pop("genres")
+        filter_request['with_genres'] = genres
+
+    movies = tmdb.Discover().movie(**filter_request)
+    tv = tmdb.Discover().tv(**filter_request)
+
+    return [genre_lists, movies, tv]
+
+def add_music_filter(request):
+    music_categories = spotify.recommendation_genre_seeds()
+    music = getTopAlbums()
+    filter_request = request.POST.copy()
+    cat = request.POST.getlist('cat')
+
+    if request.method == 'POST':
+
+        music = spotify.search(q='genre:'+cat[0], type='artist,album', limit=50)
+        music = music['albums']['items']+music['artists']['items']
+
+
+    return [music_categories['genres'], music ]
+
+
+def add_music_item(request, pk, item_type):
+    # gets [current_item, user_has_item, user_groups]
+    item_info = getUserItem(request, pk)
+    item = spotify.artist(pk)
+    print(item)
+    # for artists
+    if item_type == '1':
+        if item_info[1]:
+            print('exists?')
+            messages.success(request, item['name'] + ' is already in your watchlist')
+        elif Item.objects.filter(item_id=item['id']).exists():
+            s1 = Item.objects.get(item_id=item['id'])
+            ss = UserItem(item=s1, owned_by=request.user)
+            ss.save()
+            messages.success(request, item['name'] + ' has been added')
+        else:
+            s = Item(owned_by=request.user, item_id=item['id'], name=item['name'])
+            s.save()
+            ss = UserItem(item=s, owned_by=request.user)
+            ss.save()
+            messages.success(request, item['name'] + ' has been added')
+            print("Created and saved")
+    # for albums
+    elif item_type == '2':
+
+        if item_info[1]:
+            print('exists?')
+            messages.success(request, item.name + ' is already in your watchlist')
+        elif Item.objects.filter(item_id=item.id).exists():
+            s1 = Item.objects.get(item_id=item.id)
+            ss = UserItem(item=s1, owned_by=request.user)
+            ss.save()
+            messages.success(request, item.name + ' has been added')
+        else:
+            s = Item(owned_by=request.user, item_id=item.id, name=item.name)
+            s.save()
+            ss = UserItem(item=s, owned_by=request.user)
+            ss.save()
+            messages.success(request, item.name + ' has been added')
+            print("Created and saved")
+
+
+
+

@@ -1,15 +1,38 @@
 
-{% if request.path == '/movie/'%}
-    <form method="post" action="{% url 'filter' 'movie' %}">
-{% elif  request.path == '/tv/'%}
-    <form method="post" action="{% url 'filter' 'tv' %}">
-{% endif %}
-        {% csrf_token %}
-<h6>Sort</h6>
-<div style="width:300px; background-color:#d5d5d5; ">
-    <nav class="nav flex-column">
-        <a class="nav-link active" href="#">
-            <select name="sort_by" class=" form-control">
+<form method="post" action="#">
+
+
+    {% csrf_token %}
+    {% if request.path == '/music/'  %}
+
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <select name="cat" class=" form-control">
+                        {% for cat in categories %}
+                            <option value="{{ cat }}">{{ cat|title }}</option>
+                        {% endfor %}
+                    </select></a>
+
+            <li class="nav-item">
+                <a class="nav-link " href="#" tabindex="-1"> <input type="submit" value="Submit"></a>
+            </li>
+
+        </ul>
+
+
+    {% else %}
+
+
+
+
+        <h6>Sort</h6>
+        <div style="width:300px; background-color:#d5d5d5; ">
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="#">
+                    <select name="sort_by" class=" form-control">
+
                         <option value="popularity.desc">Popularity Desc</option>
                         <option value="popularity.asc">Popularity Asc</option>
                         <option value="vote_average.desc">Rating Desc</option>
@@ -18,36 +41,44 @@
                         <option value="primary_release_date.asc">Release Date Asc</option>
                         <option value="original_title.desc">Title Desc</option>
                         <option value="original_title.asc">Title Asc</option>
-            </select>
-        </a>
-    </nav>
-</div>
 
 
- <h6>Filter </h6>
-<div style="width:300px; background-color:#d5d5d5; ">
-<ul class="nav flex-column">
+                    </select>
+                </a>
+            </nav>
+        </div>
 
-  <li class="nav-item">
-    <a class="nav-link" href="#">
-        <select multiple name="genres" class=" form-control">
-                    {% for list in genre_list %}
-                        {% for genre in list.1 %}
-                     <option value={{ genre.id }}>{{genre.name }}</option>
-                    {% endfor %}
-            {% endfor %}
-                </select></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#"><label for="year">Year</label>
-                <input type="range" class="form-control-range" id="year" name="primary_release_year" min="1960"
-                       max="2021" value="2021" oninput="this.nextElementSibling.value = this.value">
-                <output>2021</output></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link " href="#" tabindex="-1" >  <input type="submit" value="Submit"></a>
-  </li>
 
-</ul>
-</div>
+        <h6>Filter </h6>
+        <div style="width:300px; background-color:#d5d5d5; ">
+            <ul class="nav flex-column">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <select multiple name="genres" class=" form-control">
+                            {% for list in genre_list %}
+                                {% for genre in list.1 %}
+                                    <option value={{ genre.id }}>{{ genre.name }}</option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><label for="year">Year</label>
+                        <input type="range" class="form-control-range" id="year" name="primary_release_year" min="1960"
+                               max="2021" value="2021" oninput="this.nextElementSibling.value = this.value">
+                        <output>2021</output>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#" tabindex="-1"> <input type="submit" value="Submit"></a>
+                </li>
+            </ul>
+        </div>
+
+
+
+    {% endif %}
+
+
 </form>
