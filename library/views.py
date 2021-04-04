@@ -111,7 +111,10 @@ def detail(request, pk, itemType=1):
     current_item = []
     if x[1]: current_item = x[1][0]
 
-    others_watching = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
+    if request.user.is_authenticated:
+        others_watching = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
+    else:
+        others_watching= []
 
     if 'next_episode_to_air' in item[0].info():
         if item[0].info()['next_episode_to_air'] is not None:
@@ -168,9 +171,10 @@ def detailArtistMusic(request, pk , itemType='1'):
     elif request.POST.get('add_group', ""):
         group_name = request.POST.get('group_add', "")
         toggle_group(request, pk, group_name)
-
-    others_listening = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
-
+    if request.user.is_authenticated:
+        others_listening = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
+    else:
+        others_listening = []
     context = {
         "item": item,
         'albums': albums,
