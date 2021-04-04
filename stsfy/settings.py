@@ -149,7 +149,7 @@ TMDB_API = os.environ.get('TMDB_API_KEY')
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 
-SITE_ID = 2
+SITE_ID = 3
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
