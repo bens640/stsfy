@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'ag*_6h5zf1##y2608dku-glghq9d+^snv-k@5mwqd3^$%6w6lo'
 SECRET_KEY = os.environ.get('STSFY_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['stsfy.herokuapp.com']
 
@@ -149,7 +149,7 @@ TMDB_API = os.environ.get('TMDB_API_KEY')
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 
-SITE_ID = 2
+SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
