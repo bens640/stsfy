@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'ag*_6h5zf1##y2608dku-glghq9d+^snv-k@5mwqd3^$%6w6lo'
 SECRET_KEY = os.environ.get('STSFY_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('STSFY_DEBUG_VALUE') == 'True')
+DEBUG = False
 
 ALLOWED_HOSTS = ['stsfy.herokuapp.com']
 
