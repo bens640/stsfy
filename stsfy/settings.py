@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['stsfy.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'library.apps.LibraryConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
