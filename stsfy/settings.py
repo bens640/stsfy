@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ag*_6h5zf1##y2608dku-glghq9d+^snv-k@5mwqd3^$%6w6lo'
-
+# SECRET_KEY = 'ag*_6h5zf1##y2608dku-glghq9d+^snv-k@5mwqd3^$%6w6lo'
+SECRET_KEY = os.environ.get('STSFY_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stsfy.herokuapp.com']
 
 
 # Application definition
@@ -165,6 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
 WS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
+
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
