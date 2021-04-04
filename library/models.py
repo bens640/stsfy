@@ -16,6 +16,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     item_id = models.CharField(max_length=100)
     item_type = models.CharField(max_length=1, choices=MEDIA_TYPES)
+    image_path = models.CharField(max_length=100, blank=True, null=True)
     owned_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -37,41 +38,3 @@ class UserItem(models.Model):
         else:
             return self.item.name
 
-'''     SCHEMA
-Item
-MEDIA_TYPES = [
-    ("F", "Movie"),
-    ("T", "TV"),
-    ("M", "Music"),
-]
--> item_Name charfield
--> item_Type = models.Charfield(max_length = 1, choices = MEDIA_TYPES)
--> owned_by foreignkey to User
--> genres many to many field to Genre
-
-UserItem
--> item foreignkey to Item
--> owned_by foreignkey to User null true
--> group foreignkey to Group null true
--> consumed boolean
--> date_added datefield
-
-Genre
--> name charfield
--> media_type charfield
--> number int
-
-
-TODO
-
-show who added media in media card
-
-create media
-Add media to user
-show users in detail page
-
-create group
-add user to group
-show groups in detail page
-
-'''

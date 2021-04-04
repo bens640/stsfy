@@ -6,11 +6,11 @@
                 <h5 class="card-title">{{ x.name }}</h5>
                 <h6 class="card-body">{{ x.artists.0.name }}</h6>
             {%  if x.artists.0.id is not None %}
-                <a href="{% url  'detail-artist-music' x.artists.0.id %}" class="stretched-link"> </a>
+                <a href="{% url  'detail-artist-music' x.artists.0.id 1 %}" class="stretched-link"> </a>
                 {%  elif x.albums.0.id is not None %}
                 <a href="{% url  'detail-album-music' x.id %}" class="stretched-link"> </a>
                 {%  elif x.id is not None %}
-                <a href="{% url  'detail-artist-music' x.id %}" class="stretched-link"> </a>
+                <a href="{% url  'detail-artist-music' x.id 2 %}" class="stretched-link"> </a>
             {% endif %}
         </div>
     </div>

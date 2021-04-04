@@ -151,7 +151,7 @@ def detail(request, pk, itemType=1):
     return render(request, 'library/detail.html', context)
 
 
-def detailArtistMusic(request, pk,itemType='1'):
+def detailArtistMusic(request, pk , itemType='1'):
     item = getMusicDetails(pk, '1')
     albums = getMusicDetails(pk, '2')
     x = getUserItem(request, pk)
@@ -161,7 +161,7 @@ def detailArtistMusic(request, pk,itemType='1'):
 
     if request.POST.get('add_item', ""):
         add_music_item(request, pk, itemType)
-        return redirect(detailArtistMusic, pk)
+        return redirect(detailArtistMusic, pk, 1)
     elif request.POST.get('remove_item', ""):
         remove_music_item(request, pk)
         return redirect(detailArtistMusic, pk)

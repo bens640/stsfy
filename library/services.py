@@ -139,7 +139,7 @@ def add_item(request, item, item_type):
             ss.save()
             messages.success(request, item.title + ' has been added')
         else:
-            s = Item(owned_by=request.user, item_id=item.id, name=item.title)
+            s = Item(owned_by=request.user, item_id=item.id, name=item.title, image_path=item.poster_path,item_type="F" )
             s.save()
             ss = UserItem(item=s, owned_by=request.user)
             ss.save()
@@ -157,7 +157,7 @@ def add_item(request, item, item_type):
             ss.save()
             messages.success(request, item.name + ' has been added')
         else:
-            s = Item(owned_by=request.user, item_id=item.id, name=item.name)
+            s = Item(owned_by=request.user, item_id=item.id, name=item.name, image_path=item.poster_path, item_type="T")
             s.save()
             ss = UserItem(item=s, owned_by=request.user)
             ss.save()
@@ -250,7 +250,7 @@ def add_music_item(request, pk, item_type):
             ss.save()
             messages.success(request, item['name'] + ' has been added')
         else:
-            s = Item(owned_by=request.user, item_id=item['id'], name=item['name'])
+            s = Item(owned_by=request.user, item_id=item['id'], name=item['name'], image_path=item['images'][0]['url'], item_type="M")
             s.save()
             ss = UserItem(item=s, owned_by=request.user)
             ss.save()
