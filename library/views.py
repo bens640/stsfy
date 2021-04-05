@@ -244,11 +244,20 @@ class GroupDetailView(DetailView):
     template_name = 'library/group_detail.html'
 
     def post(self, request, *args, **kwargs):
-        print(self.kwargs.get('pk'))
+        # memb = Membership.objects.get(person=request.user, group_id = self.kwargs.get('pk') )
+        try:
+            memb = Membership.objects.get(person=request.user, group_id=self.kwargs.get('pk'))
+        except:
+            memb = None
 
-        if Group.objects.get(id=self.kwargs.get('pk')):
-            m1 = Membership(person=request.user, group=Group.objects.get(id=self.kwargs.get('pk')), date_joined=today())
-            m1.save()
+        if not memb:
+            if Group.objects.get(id=self.kwargs.get('pk')):
+                m1 = Membership(person=request.user, group=Group.objects.get(id=self.kwargs.get('pk')), date_joined=today())
+                m1.save()
+        else:
+            m1 = Membership.objects.get(person=request.user, group=Group.objects.get(id=self.kwargs.get('pk')))
+            m1.delete()
+
         return redirect('groups')
 
     def get_context_data(self, **kwargs):

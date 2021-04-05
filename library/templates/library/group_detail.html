@@ -16,10 +16,16 @@
       <h1>{{ group.name }}</h1>
       <p>{{ group.about }}</p>
       {% if user not in users %}
-      <form name="add_user_togroup" method="post" action="">
+      <form name="add_user_to_group" method="post" action="">
         {% csrf_token %}
-        <input type="submit" value="Add me to the group" />
-      </form>{% endif %}
+        <input class="btn btn-primary" type="submit" value="Add me to the group" />
+      </form>
+      {% else %}
+           <form name="remove_user_from_group" method="post" action="">
+        {% csrf_token %}
+        <input class="btn btn-warning" type="submit" value="Remove me from the group" />
+      </form>
+      {% endif %}
   </div>
   <div class="tab-pane fade" id="group_shows" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row" >
