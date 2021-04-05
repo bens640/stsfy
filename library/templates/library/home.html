@@ -4,24 +4,28 @@
     {#    <iframe src="https://open.spotify.com/embed/album/69GTpu2TQvWQNOjhIVyzRL" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>#}
 
     <div class="row">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user_library%}
+            {% if user_library%}
             <a class="nav-link" href="{% url 'profile' %}">
                 <h1>My Library</h1></a>
-            <div class="row row-cols-1 row-cols-md-4">
+            <div class="row  ">
                 {% for item in user_library %}
                     {% if forloop.counter < 5 %}
                         {% include "library/homelist_item_base.html" %}
                     {% endif %}
                 {% endfor %}
             </div>
+                {% endif %}
+             {% if user_library%}
             <a class="nav-link" href="{% url 'groups' %}">
                 <h1>My Groups Library</h1></a>
-            <div class="row row-cols-1 row-cols-md-4">
+            <div class="row  ">
                 {% for item in group_library %}
                     {% if forloop.counter < 5 %}
                         {% include "library/homelist_item_base.html" %}
                     {% endif %}
                 {% endfor %}</div>
+                 {% endif %}
         {% endif %}
         <a class="nav-link " href="{% url 'library-movie' %}"><h1>Movies</h1></a>
 

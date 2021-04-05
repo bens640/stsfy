@@ -1,11 +1,13 @@
 import json
 from dateutil.parser import *
 from dateutil.utils import today
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.sites import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, CreateView, DetailView
+
 
 from library.models import Item, UserItem
 from library.services import *
@@ -19,8 +21,9 @@ def home(request):
     tv = getThisYearTv()
     music = getTopAlbums()
     user_library = UserItem.objects.filter(owned_by=request.user).order_by('?')
+    u = Group.objects.filter(members=request.user)
+    group_library = UserItem.objects.filter(group__in=u).order_by('?')
 
-    group_library = UserItem.objects.all().select_related('group').filter(owned_by=request.user).order_by('?')
 
     data = {
         "movies": movies,
