@@ -54,25 +54,7 @@
             <div class="row">
                 {% for item in all_items %}
 {#                    <h1>{{ item.item.item_type }}</h1>#}
-                    <div class="col">
-                        {% if item.item.item_type == 'F' %}
-                            <a href="{% url 'detail' item.item.item_id '1' %}">
-                        {% elif item.item.item_type == 'T' %}
-                            <a href="{% url 'detail' item.item.item_id '2' %}">
-                        {% elif item.item.item_type == 'M' %}
-                            <a href="{% url 'detail-artist-music' item.item.item_id '1'%}">
-                        {% endif %}
-                            {% if item.item.image_path != null %}
-                                 {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
-                                     <img class="mb-2 shadow-sm" style="width:250px" src="https://image.tmdb.org/t/p/w185{{ item.item.image_path }}" alt="...">
-                                 {% else%}
-                                     <img class="mb-2 shadow-sm" style="width:250px" src="{{ item.item.image_path }}" alt="...">
-                                 {% endif %}
-                            {% else %}
-                                <h1>{{ item.item.name }}</h1>
-                            {% endif %}
-                        </a>
-                    </div>
+                 {% include 'library/item_poster.html' %}
                 {% endfor %}
             </div>
         </div>
@@ -80,25 +62,7 @@
         <div class="tab-pane fade" id="unused" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row">
                 {% for item in unused_items %}
-                    <div class="col">
-                        {% if item.item.item_type == Movie %}
-                            <a href="{% url 'detail' item.item.item_id '1' %}">
-                        {% elif item.item.item_type == TV %}
-                            <a href="{% url 'detail' item.item.item_id '2' %}">
-                        {% elif item.item.item_type == Music %}
-                            <a href="{% url 'detail-artist-music' item.item.item_id 1 %}">
-                        {% endif %}
-                        {% if item.item.image_path != null %}
-                            {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
-                                     <img class="mb-2 shadow-sm" style="width:250px" src="https://image.tmdb.org/t/p/w185{{ item.item.image_path }}" alt="...">
-                                 {% else%}
-                                     <img class="mb-2 shadow-sm" style="width:250px" src="{{ item.item.image_path }}" alt="...">
-                                 {% endif %}
-                        {% else %}
-                            <h1>{{ item.item.name }}</h1>
-                        {% endif %}
-                        </a>
-                    </div>
+                   {% include 'library/item_poster.html' %}
                 {% endfor %}
             </div>
         </div>
@@ -106,26 +70,7 @@
         <div class="tab-pane fade" id="used" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row">
                 {% for item in used_items %}
-
-                    <div class="col">
-                        {% if item.item.item_type == 'F' %}
-                            <a href="{% url 'detail' item.item.item_id 1 %}">
-                        {% elif item.item.item_type == 'T' %}
-                            <a href="{% url 'detail' item.item.item_id 2 %}">
-                        {% elif item.item.item_type == 'M' %}
-                            <a href="{% url 'detail-artist-music' item.item.item_id 1 %}">
-                        {% endif %}
-                        {% if item.item.image_path != null %}
-                           {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
-                                     <img class="mb-2 shadow-sm" style="width:250px" src="https://image.tmdb.org/t/p/w185{{ item.item.image_path }}" alt="...">
-                                 {% else%}
-                                     <img class="mb-2 shadow-sm" style="width:250px" src="{{ item.item.image_path }}" alt="...">
-                                 {% endif %}
-                        {% else %}
-                            <h1>{{ item.item.name }}</h1>
-                        {% endif %}
-                        </a>
-                    </div>
+                    {% include 'library/item_poster.html' %}
                 {% endfor %}
             </div>
         </div>

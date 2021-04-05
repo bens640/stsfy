@@ -1,0 +1,29 @@
+<div class="col mb-4">
+    <div class="card w-auto bg-dark text-white shadow-sm">
+        {% if item.item.image_path != null %}
+       {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
+                 <img class="mb-2 shadow-sm" style="width:250px" src="https://image.tmdb.org/t/p/w185{{ item.item.image_path }}" alt="...">
+             {% else%}
+                 <img class="mb-2 shadow-sm" style="width:250px" src="{{ item.item.image_path }}" alt="...">
+             {% endif %}
+    {% else %}
+        <h1>{{ item.item.name }}</h1>
+    {% endif %}
+
+        <div class="card-body text-center">
+            {% if item.item.name != null %}
+                <h5 class="card-title">{{ item.item.name }}</h5>
+            {% endif %}
+        </div>
+    {% if item.item.item_type == 'F' %}
+        <a href="{% url 'detail' item.item.item_id 1  %}" class="stretched-link">
+    {% elif item.item.item_type == 'T' %}
+        <a href="{% url 'detail' item.item.item_id 2 %}" class="stretched-link" >
+    {% elif item.item.item_type == 'M' %}
+        <a href="{% url 'detail-artist-music' item.item.item_id 1 %}" class="stretched-link">
+    {% endif %}
+
+</a>
+
+</div>
+</div>

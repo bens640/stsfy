@@ -23,6 +23,7 @@
         <form action="#" method="post" class="mb-2">
             {% csrf_token %}
             {% if owned.0 %}
+                {% if groups %}
                 <input type="submit" name="remove_item" class="btn btn-warning" value="Remove from my library">
                 <div style="width: 200px">
                 <select name="group_add" class=" form-control">
@@ -33,6 +34,7 @@
                 </div>
 
     <input type="submit" name="add_group" class="btn btn-primary" value="Add this to group">
+                    {% endif %}
 {%  if current_item.consumed is False %}
                  <input type="submit" name="consumed" class="btn btn-dark" value="I have watched this">
     {% else %}

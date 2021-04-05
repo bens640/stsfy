@@ -22,11 +22,9 @@
       </form>{% endif %}
   </div>
   <div class="tab-pane fade" id="group_shows" role="tabpanel" aria-labelledby="profile-tab">
-<div class="row" >
+        <div class="row" >
             {% for item in items %}
-                <div class="col" >
-                      <p>{{ item.item.name }}</p>
-                </div>
+                {% include 'library/item_poster.html' %}
             {% endfor %}
         </div>
 

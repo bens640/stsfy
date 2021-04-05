@@ -1,7 +1,7 @@
 import json
 from dateutil.parser import *
 from dateutil.utils import today
-
+from django.db.models import Q
 from django.contrib.sites import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -18,11 +18,16 @@ def home(request):
     movies = getThisYearMovies()
     tv = getThisYearTv()
     music = getTopAlbums()
+    user_library = UserItem.objects.filter(owned_by=request.user).order_by('?')
+
+    group_library = UserItem.objects.all().select_related('group').filter(owned_by=request.user).order_by('?')
 
     data = {
         "movies": movies,
         'tv': tv,
-        'music': music
+        'music': music,
+        'user_library': user_library,
+        'group_library': group_library,
     }
 
     return render(request, 'library/home.html', data)
@@ -167,14 +172,14 @@ def detailArtistMusic(request, pk , itemType='1'):
         return redirect(detailArtistMusic, pk, 1)
     elif request.POST.get('remove_item', ""):
         remove_music_item(request, pk)
-        return redirect(detailArtistMusic, pk)
+        return redirect(detailArtistMusic, pk, 1)
     elif request.POST.get('add_group', ""):
         group_name = request.POST.get('group_add', "")
         toggle_group(request, pk, group_name)
     if request.user.is_authenticated:
         others_listening = UserItem.objects.filter(item=x[0]).exclude(owned_by=request.user)
     else:
-        others_listening = []
+        others_listening = UserItem.objects.filter(item=x[0])
     context = {
         "item": item,
         'albums': albums,
