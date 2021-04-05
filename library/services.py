@@ -184,12 +184,14 @@ def remove_music_item(request, pk):
 
 def toggle_group(request, pk, group):
     current_item = Item.objects.filter(item_id=pk).first()
-    cur_group = Group.objects.get(name=group)
+    cur_group = None
     try:
+        cur_group = Group.objects.get(name=group)
         users_item = UserItem.objects.get(item=current_item, owned_by=request.user, group_id=cur_group.id)
     except:
+
         users_item = UserItem.objects.get(item=current_item, owned_by=request.user)
-    if users_item.group is None:
+    if users_item.group is None and cur_group is not None:
         users_item.group = cur_group
         messages.success(request, current_item.name + ' has been added to ' + group + '\'s library')
     else:
