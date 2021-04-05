@@ -20,11 +20,13 @@ def home(request):
     movies = getThisYearMovies()
     tv = getThisYearTv()
     music = getTopAlbums()
-    user_library = UserItem.objects.filter(owned_by=request.user).order_by('?')
-    u = Group.objects.filter(members=request.user)
-    group_library = UserItem.objects.filter(group__in=u).order_by('?')
-
-
+    try:
+        user_library = UserItem.objects.filter(owned_by=request.user).order_by('?')
+        u = Group.objects.filter(members=request.user)
+        group_library = UserItem.objects.filter(group__in=u).order_by('?')
+    except:
+        user_library = []
+        group_library = []
     data = {
         "movies": movies,
         'tv': tv,
