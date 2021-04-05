@@ -58,27 +58,6 @@ def testPage(request):
     return render(request, 'library/test.html', data)
 
 
-class TestPage(TemplateView):
-    context_object_name = 'data'
-    template_name = 'library/test.html'
-
-    # def post(request):
-
-    def get_context_data(self, **kwargs):
-        movies = getThisYearMovies()
-        tv = getThisYearTv()
-        music = getTopAlbums()
-        item = getItemDetails(456, '2')
-
-        data = {
-            "movies": movies,
-            'tv': tv,
-            'music': music,
-            'item': item[0]
-
-        }
-        return data
-
 
 class SearchResultsView(ListView):
     template_name = 'library/search_results.html'
