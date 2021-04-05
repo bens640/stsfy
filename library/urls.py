@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 from . import views
-from .views import SearchResultsView, TestPage, GroupCreateView, GroupListView, GroupDetailView
+from .views import SearchResultsView,  GroupCreateView, GroupListView, GroupDetailView
 
 urlpatterns = [
     path('', views.home, name='library-home'),
