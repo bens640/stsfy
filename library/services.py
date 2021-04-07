@@ -215,6 +215,7 @@ def add_filter(request, type):
         if request.POST.get("genres"):
             filter_request.pop("genres")
         filter_request['with_genres'] = genres
+        filter_request['include_adult'] = False
 
     movies = tmdb.Discover().movie(**filter_request)
     tv = tmdb.Discover().tv(**filter_request)

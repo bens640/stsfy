@@ -7,11 +7,11 @@
             <h1>{{ x.title }}</h1>
         {% endif %}
 
-        <div class="card-body text-center">
+        <div class="card-body text-center rounded shadow-lg">
             {% if x.title != null %}
-                <h5 class="card-title">{{ x.title }}</h5>
+                <h5 class="card-title ">{{ x.title }}</h5>
             {% else %}
-                <h5 class="card-title" >{{ x.name }}</h5>
+                <h5 class="card-title  " >{{ x.name }}</h5>
             {% endif %}
         </div>
     <a href="{% url  'detail' x.id 1 %}" class="stretched-link"> </a>

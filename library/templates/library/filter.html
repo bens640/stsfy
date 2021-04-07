@@ -59,7 +59,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><label for="year">Year</label>
-                        {% if item.title %}
+                        {% if request.path == '/movie/'  %}
                             <input type="range" class="form-control-range" id="year" name="primary_release_year" min="1960"
                                max="2021" value="2021" oninput="this.nextElementSibling.value = this.value">
                         {% else %}
