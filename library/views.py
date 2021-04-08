@@ -8,7 +8,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, CreateView, DetailView
 
-
 from library.models import Item, UserItem
 from library.services import *
 from stsfy.settings import TMDB_API

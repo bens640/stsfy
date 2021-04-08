@@ -1,68 +1,92 @@
-{% extends "library/base.html" %}
+
 {% load static %}
-{% block content %}
+<html>
+<head>
+<link rel='stylesheet' href="{% static 'library/css/base.css' %}" type='text/css'>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My info</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#group_shows" role="tab" aria-controls="profile" aria-selected="false">My Library</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#used" role="tab" aria-controls="contact" aria-selected="false">My unwatched</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#unused" role="tab" aria-controls="contact" aria-selected="false">My watched</a>
-  </li>
-</ul>
+</head>
+<body>
 
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <h1>{{ group.name }}</h1>
-      <p>{{ group.about }}</p>
-      {% if user not in users %}
-      <form name="add_user_togroup" method="post" action="">
-        {% csrf_token %}
-        <input type="submit" value="Add me to the group" />
-      </form>{% endif %}
-  </div>
-
-  <div class="tab-pane fade" id="group_shows" role="tabpanel" aria-labelledby="profile-tab">
-    <div class="row" >
-            {% for item in items %}
-                <div class="col" >
-                      <p>{{ item.item.name }}</p>
-                </div>
-            {% endfor %}
+<div class="cards">
+{% for x in movies.results %}
+  <div class="card">
+    <div class="card__image-holder">
+      <img class="card__image"  src="https://image.tmdb.org/t/p/w342/{{ x.poster_path }}">
+    </div>
+    <div class="card-title">
+      <a href="#" class="toggle-info btn">
+        <span class="left"></span>
+        <span class="right"></span>
+      </a>
+      <h2 >
+          {{ x.title }}
+      </h2>
+    </div>
+    <div class="card-flap flap1">
+      <div class="card-description">
+          {{ x.overview }}
+      </div>
+      <div class="card-flap flap2">
+        <div class="card-actions">
+            <a href="{% url  'detail' x.id 1 %}" class="">More Info</a>
+          <a href="#" class="btn">Add</a>
         </div>
+      </div>
+    </div>
 
   </div>
 
-  <div class="tab-pane fade" id="used" role="tabpanel" aria-labelledby="contact-tab">
-   <ul class="list-group w-25">
-      {% for u in users %}<li class="list-group-item">
-          <img class="rounded-circle account-img" width="25"  src="{{ u.profile.image.url }}">
-           <span> {{ u.username }}</span>
-</li>
-      {% endfor %}
-     <div class="tab-pane fade" id="unused" role="tabpanel" aria-labelledby="profile-tab">
-    <div class="row" >
-            {% for item in unused_items %}
-                <div class="col" >
-                      <p>{{ item.item.name }}</p>
-                </div>
-            {% endfor %}
-        </div>
+  {% endfor %}
 
-  </div>
-
-</ul>
-
-
-
-  </div>
 </div>
 
 
-{% endblock content %}
+<script>
+$(document).ready(function(){
+  var zindex = 10;
+
+  $("div.card").click(function(e){
+    {#e.preventDefault();#}
+
+    var isShowing = false;
+
+    if ($(this).hasClass("show")) {
+      isShowing = true
+    }
+
+    if ($("div.cards").hasClass("showing")) {
+      // a card is already in view
+      $("div.card.show")
+        .removeClass("show");
+
+      if (isShowing) {
+        // this card was showing - reset the grid
+        $("div.cards")
+          .removeClass("showing");
+      } else {
+        // this card isn't showing - get in with it
+        $(this)
+          .css({zIndex: zindex})
+          .addClass("show");
+
+      }
+
+      zindex++;
+
+    } else {
+      // no cards in view
+      $("div.cards")
+        .addClass("showing");
+      $(this)
+        .css({zIndex:zindex})
+        .addClass("show");
+
+      zindex++;
+    }
+
+  });
+});
+</script>
+</body>
+</html>
