@@ -30,13 +30,14 @@
     <h3>{{ item.overview }}</h3>
 
     {% if user.is_authenticated %}
+<div class="contain">
         <form action="#" method="post" class="mb-2">
             {% csrf_token %}
             {% if owned.0 %}
                 <input type="submit" name="remove_item" class="btn btn-warning" value="Remove from my library">
-                <div style="width: 200px">
+                <div style="width: 600px">
                 {% if groups %}
-                    <select name="group_add" class=" form-control">
+                    <select name="group_add" class=" form-control" style="width: auto">
                     {% for group in groups %}
                         <option value={{ group.group.name }}>{{ group.group.name }}</option>
                           {% endfor %}
@@ -45,14 +46,17 @@
 
                 <input type="submit" name="add_group" class="btn btn-primary" value="Add this to group">
                 {% endif %}
-{%  if current_item.consumed is False %}
+    {%  if current_item.consumed is False %}
+                <div class="input-container">
+
                  <input type="submit" name="consumed" class="btn btn-dark" value="I have watched this">
     {% else %}
+
     <input type="submit" name="consumed" class="btn btn-light" value="I have not watched this">
      {% endif %}
             {% else %}
                 <input type="submit" name="add_item" class="btn btn-primary" value="Add to my library">
-
+</div>
             {% endif %}
         </form>
     {% endif %}

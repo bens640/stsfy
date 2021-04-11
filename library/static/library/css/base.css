@@ -1,3 +1,8 @@
+.fixedbar{
+	position: fixed;
+	left: 0;
+	max-width: 360px ;
+}
 
  a.btnz {
 	 background: #0096a0;
@@ -23,36 +28,70 @@
 	 transition: all 0.025s 0s ease-out;
 }
  div.cardsz {
-	 margin: 40px auto;
-	 max-width: 1200px;
+	 /*margin:  0 auto;*/
+	 margin-right: -140px;
+	 max-width: 1000px;
 	 text-align: center;
+	 /*padding: revert;*/
+	 padding-left: 135px;
+	 /*display: block;*/
 }
  div.cardz {
 	 background: #ffffff;
 	 display: inline-block;
-	 margin: 8px;
-	 max-width: 300px;
+	 /*margin: 2px;*/
+	 max-width: 225px;
+	 /*overflow: auto;*/
+	 /*padding-left: 10px;*/
 	 perspective: 1000;
 	 position: relative;
 	 text-align: left;
 	 transition: all 0.3s 0s ease-in;
-	 width: 300px;
+	 width: 225px;
 	 z-index: 1;
-     height: 450px;
+     height: 375px;
 }
+
+  div.cardz-music {
+	 background: #ffffff;
+	 display: inline-block;
+	 /*margin: 2px;*/
+	 max-width: 225px;
+	 /*overflow: auto;*/
+
+	 perspective: 1000;
+	 position: relative;
+	 text-align: left;
+	 transition: all 0.3s 0s ease-in;
+	 width: 225px;
+	 z-index: 1;
+     height: 240px;
+}
+
+
+
  div.cardz img {
-	 max-width: 300px;
+	 max-width: 215px;
 }
  div.cardz .card__image-holderz {
 	 background: rgba(0,0,0,0.1);
-	 height: 450px;
+	 height: 320px;
+	 padding-bottom: 75%;
+	 width: 225px;
+}
+
+  div.cardz .card__image-holderz-music {
+	 background: rgba(0,0,0,0.1);
+	 height: 225px;
 	 padding-bottom: 75%;
 }
+
  div.cardz div.card-titlez {
 	 background: #ffffff;
 	 padding: 6px 15px 10px 10px;
 	 position: relative;
 	 z-index: 0;
+	 height: 62px;
 
 
 }
@@ -64,6 +103,7 @@
 	 right: 15px;
 	 top: 10px;
 	 width: 32px;
+	 padding-top: 30px;
 }
  div.cardz div.card-titlez a.toggle-infoz span {
 	 background: #ffffff;
@@ -82,7 +122,7 @@
 	 left: 14px;
 	 transform: rotate(-45deg);
 }
- div.cardz div.card-titlez h2 {
+ div.cardz div.card-titlez h5 {
 	 font-size: 24px;
 	 font-weight: 700;
 	 letter-spacing: -0.05em;
@@ -92,16 +132,17 @@
 
 
 }
- div.cardz div.card-titlez h2 small {
+ div.cardz div.card-titlez h5 small {
 	 display: block;
 	 font-size: 18px;
 	 font-weight: 600;
 	 letter-spacing: -0.025em;
 }
  div.cardz div.card-descriptionz {
-	 padding: 0 15px 10px;
+	 padding: 20px 15px 10px;
 	 position: relative;
 	 font-size: 14px;
+
 }
  div.cardz div.card-actionsz {
 	 box-shadow: 0 2px 0px 0 rgba(0,0,0,0.075);
@@ -140,7 +181,7 @@
 	 background: #ff6666 !important;
 }
  div.cardz.showz div.card-titlez a.toggle-infoz span {
-	 top: 15px;
+	 top: 10px;
 }
  div.cardz.showz div.card-titlez a.toggle-infoz span.leftz {
 	 right: 10px;

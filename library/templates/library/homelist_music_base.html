@@ -19,8 +19,9 @@
 
 <div class="cardsz">
 {#        {% for item in movies.results %}#}
+    <div class="cardz-music">
             <div class="cardz">
-                <div class="card__image-holderz">
+                <div class="card__image-holderz-music">
                     <img class="card__imagez" src="{{ item.images.0.url }}" alt="wave"/>
                 </div>
                 <div class="card-titlez">
@@ -28,10 +29,10 @@
                         <span class="leftz"></span>
                         <span class="rightz"></span>
                     </a>
-                    <h2>
+                    <h5>
                 {{ item.name }}
 
-                    </h2>
+                    </h5>
                 </div>
                 <div class="card-flapz flap1z">
                     <div class="card-descriptionz">
@@ -52,3 +53,4 @@
                 </div>
             </div>
     </div>
+</div>

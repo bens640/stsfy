@@ -1,4 +1,4 @@
-<div class="sticky-top">
+<div class="fixedbar" >
 <form method="post" action="#">
 
 
@@ -6,7 +6,7 @@
     {% if request.path == '/music/'  %}
 
 
-        <ul class="nav flex-column">
+        <ul class="nav ">
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <select name="cat" class=" form-control">
@@ -15,14 +15,14 @@
                         {% endfor %}
                     </select></a>
 
-            <li class="nav-item">
+{#            <li class="nav-item">#}
                 <a class="nav-link " href="#" tabindex="-1"> <input type="submit" value="Submit"></a>
             </li>
 
         </ul>
     {% else %}
         <h6>Sort</h6>
-        <div style="width:300px; background-color:#d5d5d5; ">
+        <div style="width:250px; background-color:#d5d5d5; ">
             <nav class="nav flex-column">
                 <a class="nav-link active" href="#">
                     <select name="sort_by" class=" form-control">
@@ -44,7 +44,7 @@
 
 
         <h6>Filter </h6>
-        <div style="width:300px; background-color:#d5d5d5; ">
+        <div style="width:250px; background-color:#d5d5d5; ">
             <ul class="nav flex-column">
 
                 <li class="nav-item">

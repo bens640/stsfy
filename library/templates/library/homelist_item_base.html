@@ -29,8 +29,7 @@
 {#</div>#}
 
     <div class="cardsz">
-{#        {% for item in movies.results %}#}
-            <div class="cardz">
+            <div class="cardz" >
                 <div class="card__image-holderz">
                     {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
                      <img class="card__imagez"  src="https://image.tmdb.org/t/p/w342{{ item.item.image_path }}" alt="...">
@@ -44,9 +43,9 @@
                         <span class="leftz"></span>
                         <span class="rightz"></span>
                     </a>
-                    <h2>
+                    <h5>
                  {{ item.item.name }}
-                    </h2>
+                    </h5>
                 </div>
                 <div class="card-flapz flap1z">
                     <div class="card-descriptionz">

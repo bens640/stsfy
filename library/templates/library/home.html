@@ -9,7 +9,7 @@
                     <h1>My Library</h1></a>
                 <div class="row row-cols-1 row-cols-md-4 ">
                     {% for item in user_library %}
-                        {% if forloop.counter < 4 %}
+                        {% if forloop.counter < 6 %}
                             {% include "library/homelist_item_base.html" %}
                         {% endif %}
                     {% endfor %}
@@ -22,7 +22,7 @@
                     <h1>My Groups Library</h1></a>
                 <div class="row row-cols-1 row-cols-md-4 ">
                     {% for item in group_library %}
-                        {% if forloop.counter < 4 %}
+                        {% if forloop.counter < 6 %}
                             {% include "library/homelist_item_base.html" %}
                         {% endif %}
                     {% endfor %}
@@ -34,7 +34,7 @@
         <a class="nav-link " href="{% url 'library-movie' %}"><h1>Movies</h1></a>
         <div class="row row-cols-1 row-cols-md-4">
             {% for item in movies.results %}
-                {% if forloop.counter < 4 %}
+                {% if forloop.counter < 6 %}
                     {% include "library/homelist_movie_base.html" %}
                 {% endif %}
             {% endfor %}
@@ -44,7 +44,7 @@
         <a class="nav-link container" href="{% url 'library-tv' %}"><h1>TV</h1></a>
         <div class="row row-cols-1 row-cols-md-4">
             {% for item in tv.results %}
-                {% if forloop.counter < 4 %}
+                {% if forloop.counter < 6 %}
                     {% include "library/homelist_movie_base.html" %}
                 {% endif %}
             {% endfor %}
@@ -52,7 +52,7 @@
         <a class="nav-link" href="{% url 'library-music' %}"><h1>Music</h1></a>
         <div class="row row-cols-1 row-cols-md-4">
             {% for item in music %}
-                {% if forloop.counter < 4 %}
+                {% if forloop.counter < 6 %}
                     {% include "library/homelist_music_base.html" %}
                 {% endif %}
             {% endfor %}
