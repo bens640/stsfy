@@ -37,9 +37,11 @@
   </div>
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
    <ul class="list-group w-25">
-      {% for u in users %}<li class="list-group-item">
+      {% for u in users %}
+          <a href="{%   url 'p_profile' u.username %}">
+          <li class="list-group-item">
           <img class="rounded-circle account-img" width="25"  src="{{ u.profile.image.url }}">
-           <span> {{ u.username }}</span>
+           <span> {{ u.username }}</span></a>
 </li>
       {% endfor %}
 </ul>
