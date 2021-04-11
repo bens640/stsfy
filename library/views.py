@@ -122,6 +122,7 @@ def detail(request, pk, itemType=1):
         return redirect(detail, pk, itemType)
     elif request.POST.get('add_group', ""):
         group_name = request.POST.get('group_add', "")
+        # print(group_name)
         toggle_group(request, pk, group_name)
 
     if request.POST.get('consumed', ""):
@@ -227,7 +228,7 @@ def music_page(request):
 class GroupCreateView(CreateView):
     model = Group
     template_name = 'library/group_form.html'
-    fields = ['name', 'about']
+    fields = ['name', 'about', 'image']
 
     def form_valid(self, form):
         form.instance.user = self.request.user

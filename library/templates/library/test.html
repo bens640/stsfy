@@ -1,92 +1,87 @@
-
+{% extends "library/base.html" %}
 {% load static %}
-<html>
-<head>
-<link rel='stylesheet' href="{% static 'library/css/base.css' %}" type='text/css'>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+{% block content %}
 
-</head>
-<body>
+    <div class="cardsz">
+{#        {% for item in movies.results %}#}
+            <div class="cardz">
+                <div class="card__image-holderz">
+                    <img class="card__imagez" src="https://image.tmdb.org/t/p/w342/{{ item.poster_path }}" alt="wave"/>
+                </div>
+                <div class="card-titlez">
+                    <a class="toggle-infoz btnz" href="javascript:void(0);">
+                        <span class="leftz"></span>
+                        <span class="rightz"></span>
+                    </a>
+                    <h2>
 
-<div class="cards">
-{% for x in movies.results %}
-  <div class="card">
-    <div class="card__image-holder">
-      <img class="card__image"  src="https://image.tmdb.org/t/p/w342/{{ x.poster_path }}">
+            {% if item.title != null %}
+                 {{ item.title }}
+            {% else %}
+                {{ item.name }}
+            {% endif %}
+                    </h2>
+                </div>
+                <div class="card-flapz flap1z">
+                    <div class="card-descriptionz">
+                        {{ x.overview }}
+                    </div>
+                    <div class="card-flapz flap2z">
+                        <div class="card-actionsz">
+                            <a href="{% url  'detail' item.id 1 %}" class="btnz">More Info</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+{#        {% endfor %}#}
     </div>
-    <div class="card-title">
-      <a href="#" class="toggle-info btn">
-        <span class="left"></span>
-        <span class="right"></span>
-      </a>
-      <h2 >
-          {{ x.title }}
-      </h2>
-    </div>
-    <div class="card-flap flap1">
-      <div class="card-description">
-          {{ x.overview }}
-      </div>
-      <div class="card-flap flap2">
-        <div class="card-actions">
-            <a href="{% url  'detail' x.id 1 %}" class="">More Info</a>
-          <a href="#" class="btn">Add</a>
-        </div>
-      </div>
-    </div>
+    <script>
+        $(document).ready(function () {
+            var zindex = 10;
 
-  </div>
+            $("div.cardz").click(function (e) {
+                {#e.preventDefault();#}
 
-  {% endfor %}
+                var isShowing = false;
 
-</div>
+                if ($(this).hasClass("showz")) {
+                    isShowing = true
+                }
+
+                if ($("div.cardsz").hasClass("showingz")) {
+                    // a card is already in view
+                    $("div.cardz.showz")
+                        .removeClass("showz");
+
+                    if (isShowing) {
+                        // this card was showing - reset the grid
+                        $("div.cardsz")
+                            .removeClass("showingz");
+                    } else {
+                        // this card isn't showing - get in with it
+                        $(this)
+                            .css({zIndex: zindex})
+                            .addClass("showz");
+
+                    }
+
+                    zindex++;
+
+                } else {
+                    // no cards in view
+                    $("div.cardsz")
+                        .addClass("showingz");
+                    $(this)
+                        .css({zIndex: zindex})
+                        .addClass("showz");
+
+                    zindex++;
+                }
+
+            });
+        });
+    </script>
 
 
-<script>
-$(document).ready(function(){
-  var zindex = 10;
-
-  $("div.card").click(function(e){
-    {#e.preventDefault();#}
-
-    var isShowing = false;
-
-    if ($(this).hasClass("show")) {
-      isShowing = true
-    }
-
-    if ($("div.cards").hasClass("showing")) {
-      // a card is already in view
-      $("div.card.show")
-        .removeClass("show");
-
-      if (isShowing) {
-        // this card was showing - reset the grid
-        $("div.cards")
-          .removeClass("showing");
-      } else {
-        // this card isn't showing - get in with it
-        $(this)
-          .css({zIndex: zindex})
-          .addClass("show");
-
-      }
-
-      zindex++;
-
-    } else {
-      // no cards in view
-      $("div.cards")
-        .addClass("showing");
-      $(this)
-        .css({zIndex:zindex})
-        .addClass("show");
-
-      zindex++;
-    }
-
-  });
-});
-</script>
-</body>
-</html>
+{% endblock content %}

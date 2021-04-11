@@ -1,17 +1,54 @@
-<div class="col mb-4">
-    <div class="card w-auto bg-dark text-white shadow-sm ">
+{#<div class="col mb-4">#}
+{#    <div class="card-base w-auto bg-dark text-white shadow-sm ">#}
+{##}
+{#            <img src={{ x.images.0.url }} class="card-img" alt="...">#}
+{#        <div class="card-body text-center" >#}
+{#                <h5 class="card-title">{{ x.name }}</h5>#}
+{#                <h6 class="card-body">{{ x.artists.0.name }}</h6>#}
+{#            {%  if x.artists.0.id is not None %}#}
+{#                <a href="{% url  'detail-artist-music' x.artists.0.id 1 %}" class="stretched-link"> </a>#}
+{#                {%  elif x.albums.0.id is not None %}#}
+{#                <a href="{% url  'detail-album-music' x.id %}" class="stretched-link"> </a>#}
+{#                {%  elif x.id is not None %}#}
+{#                <a href="{% url  'detail-artist-music' x.id 2 %}" class="stretched-link"> </a>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
-            <img src={{ x.images.0.url }} class="card-img" alt="...">
-        <div class="card-body text-center" >
-                <h5 class="card-title">{{ x.name }}</h5>
-                <h6 class="card-body">{{ x.artists.0.name }}</h6>
-            {%  if x.artists.0.id is not None %}
-                <a href="{% url  'detail-artist-music' x.artists.0.id 1 %}" class="stretched-link"> </a>
-                {%  elif x.albums.0.id is not None %}
-                <a href="{% url  'detail-album-music' x.id %}" class="stretched-link"> </a>
-                {%  elif x.id is not None %}
-                <a href="{% url  'detail-artist-music' x.id 2 %}" class="stretched-link"> </a>
-            {% endif %}
-        </div>
+
+<div class="cardsz">
+{#        {% for item in movies.results %}#}
+            <div class="cardz">
+                <div class="card__image-holderz">
+                    <img class="card__imagez" src="{{ item.images.0.url }}" alt="wave"/>
+                </div>
+                <div class="card-titlez">
+                    <a class="toggle-infoz btnz" href="javascript:void(0);">
+                        <span class="leftz"></span>
+                        <span class="rightz"></span>
+                    </a>
+                    <h2>
+                {{ item.name }}
+
+                    </h2>
+                </div>
+                <div class="card-flapz flap1z">
+                    <div class="card-descriptionz">
+                        {{ item.overview }}
+                    </div>
+                    <div class="card-flapz flap2z">
+                        <div class="card-actionsz">
+                            {%  if item.artists.0.id is not None %}
+                                <a href="{% url  'detail-artist-music' item.artists.0.id 1 %}" class="btnz">More Info </a>
+                                {%  elif item.albums.0.id is not None %}
+                                <a href="{% url  'detail-album-music' item.id %}" class="btnz">More Info </a>
+                                {%  elif item.id is not None %}
+                                <a href="{% url  'detail-artist-music' item.id 2 %}" class="btnz">More Info </a>
+                             {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
-</div>

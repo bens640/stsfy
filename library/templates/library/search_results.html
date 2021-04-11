@@ -6,17 +6,17 @@
 <h1>Movies</h1>
 
            <div class="row row-cols-1 row-cols-md-4">
-           {% for x in items.movies.results %}
-               {% if forloop.counter < 5 %}
+           {% for item in items.movies.results %}
+               {% if forloop.counter < 4 %}
                     {% include "library/homelist_movie_base.html" %}
                {% endif %}
         {% endfor %}
     </div>
     <h1>TV</h1>
            <div class="row row-cols-1 row-cols-md-4">
-           {% for x in items.tv.results %}
-               {% if forloop.counter < 5 %}
-                    {% include "library/homelist_tv_base.html" %}
+           {% for item in items.tv.results %}
+               {% if forloop.counter < 4 %}
+                    {% include "library/homelist_movie_base.html" %}
                {% endif %}
         {% endfor %}
     </div>
@@ -25,16 +25,16 @@
 
 
       <div class="row row-cols-1 row-cols-md-4">
-           {% for x in items.artists %}
-               {% if forloop.counter < 5 %}
+           {% for item in items.artists %}
+               {% if forloop.counter < 4 %}
                     {% include "library/homelist_music_base.html" %}
                {% endif %}
         {% endfor %}
 </div>
     <h2>Albums</h2>
       <div class="row row-cols-1 row-cols-md-4">
-           {% for x in items.albums %}
-               {% if forloop.counter < 5 %}
+           {% for item in items.albums %}
+               {% if forloop.counter < 4 %}
                     {% include "library/homelist_music_base.html" %}
                {% endif %}
         {% endfor %}

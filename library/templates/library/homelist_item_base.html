@@ -1,31 +1,71 @@
-<div class="col mb-4">
-    <div class="card w-auto bg-dark text-white shadow-sm">
-        {% if item.item.image_path != null %}
-       {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
-                 <img class="mb-2 shadow-sm"  src="https://image.tmdb.org/t/p/w185{{ item.item.image_path }}" alt="...">
-             {% else%}
-                 <img class="mb-2 shadow-sm" style="width:250px" src="{{ item.item.image_path }}" alt="...">
-             {% endif %}
-    {% else %}
-        <h1>{{ item.item.name }}</h1>
-    {% endif %}
+{#<div class="col mb-4">#}
+{#    <div class="card w-auto bg-dark text-white shadow-sm">#}
+{#        {% if item.item.image_path != null %}#}
+{#       {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}#}
+{#                 <img class="mb-2 shadow-sm"  src="https://image.tmdb.org/t/p/w185{{ item.item.image_path }}" alt="...">#}
+{#             {% else%}#}
+{#                 <img class="mb-2 shadow-sm" style="width:250px" src="{{ item.item.image_path }}" alt="...">#}
+{#             {% endif %}#}
+{#    {% else %}#}
+{#        <h1>{{ item.item.name }}</h1>#}
+{#    {% endif %}#}
+{##}
+{#        <div class="card-body text-center">#}
+{#            {% if item.item.name != null %}#}
+{#                <h5 class="card-title">{{ item.item.name }}</h5>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    {% if item.item.item_type == 'F' %}#}
+{#        <a href="{% url 'detail' item.item.item_id 1  %}" class="stretched-link">#}
+{#    {% elif item.item.item_type == 'T' %}#}
+{#        <a href="{% url 'detail' item.item.item_id 2 %}" class="stretched-link" >#}
+{#    {% elif item.item.item_type == 'M' %}#}
+{#        <a href="{% url 'detail-artist-music' item.item.item_id 1 %}" class="stretched-link">#}
+{#    {% endif %}#}
+{##}
+{#</a>#}
+{##}
+{#</div>#}
+{#</div>#}
 
-        <div class="card-body text-center">
-            {% if item.item.name != null %}
-                <h5 class="card-title">{{ item.item.name }}</h5>
-            {% endif %}
-        </div>
-    {% if item.item.item_type == 'F' %}
-        <a href="{% url 'detail' item.item.item_id 1  %}" class="stretched-link">
-    {% elif item.item.item_type == 'T' %}
-        <a href="{% url 'detail' item.item.item_id 2 %}" class="stretched-link" >
-    {% elif item.item.item_type == 'M' %}
-        <a href="{% url 'detail-artist-music' item.item.item_id 1 %}" class="stretched-link">
-    {% endif %}
+    <div class="cardsz">
+{#        {% for item in movies.results %}#}
+            <div class="cardz">
+                <div class="card__image-holderz">
+                    {% if item.item.item_type == 'F' or item.item.item_type == 'T' %}
+                     <img class="card__imagez"  src="https://image.tmdb.org/t/p/w342{{ item.item.image_path }}" alt="...">
+                {% else%}
+                      <img class="card__imagez" style="width:250px" src="{{ item.item.image_path }}" alt="...">
+                {% endif %}
 
-</a>
+                </div>
+                <div class="card-titlez">
+                    <a class="toggle-infoz btnz" href="javascript:void(0);">
+                        <span class="leftz"></span>
+                        <span class="rightz"></span>
+                    </a>
+                    <h2>
+                 {{ item.item.name }}
+                    </h2>
+                </div>
+                <div class="card-flapz flap1z">
+                    <div class="card-descriptionz">
+                        {{ item.overview }}
+                    </div>
+                    <div class="card-flapz flap2z">
+                        <div class="card-actionsz">
+                                {% if item.item.item_type == 'F' %}
+                            <a href="{% url 'detail' item.item.item_id 1  %}" class="btnz">More Info
+                    {% elif item.item.item_type == 'T' %}
+                            <a href="{% url 'detail' item.item.item_id 2 %}" class="btnz" >More Info
+                    {% elif item.item.item_type == 'M' %}
+                                    <a href="{% url 'detail-artist-music' item.item.item_id 1 %}" class="">More Info
+                    {% endif %}
+                            </a>
 
-</div>
-</div>
-
-
+                        </div>
+                    </div>
+                </div>
+            </div>
+{#        {% endfor %}#}
+    </div>

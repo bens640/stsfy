@@ -34,13 +34,8 @@
   font-weight: 900;
   src: url(https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3iu4nwlxdr.ttf) format('truetype');
 }
-body {
-  background: #dce1df;
-  color: #4f585e;
-  font-family: 'Source Sans Pro', sans-serif;
-  text-rendering: optimizeLegibility;
-}
-a.btn {
+
+a.btn-base {
   background: #0096a0;
   border-radius: 4px;
   box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.25);
@@ -51,25 +46,25 @@ a.btn {
   text-decoration: none;
   transition: all 0.1s 0s ease-out;
 }
-.no-touch a.btn:hover {
+.no-touch-base a.btn-base:hover {
   background: #679799;
   box-shadow: 0px 8px 2px 0 rgba(0, 0, 0, 0.075);
   transform: translateY(-2px);
   transition: all 0.25s 0s ease-out;
 }
-.no-touch a.btn:active,
-a.btn:active {
+.no-touch-base a.btn-base:active,
+a.btn-base:active {
   background: #008a93;
   box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.25);
   transform: translate3d(0, 1px, 0);
   transition: all 0.025s 0s ease-out;
 }
-div.cards {
+div.cards-base {
   margin: 80px auto;
   max-width: 960px;
   text-align: center;
 }
-div.card {
+div.card-base {
   background: #ffffff;
   display: inline-block;
   margin: 8px;
@@ -81,22 +76,22 @@ div.card {
   width: 300px;
   z-index: 1;
 }
-div.card img {
+div.card-base img {
   max-width: 300px;
 }
-div.card .card__image-holder {
+div.card-base .card__image-holder-base {
   background: rgba(0, 0, 0, 0.1);
   height: 200px;
   padding-bottom: 75%;
 }
-div.card div.card-title {
+div.card-base div.card-title-base {
   background: #ffffff;
   padding: 6px 15px 10px;
   position: relative;
   z-index: 0;
 
 }
-div.card div.card-title a.toggle-info {
+div.card-base div.card-title-base a.toggle-info-base {
   border-radius: 32px;
   height: 32px;
   padding: 0;
@@ -105,7 +100,7 @@ div.card div.card-title a.toggle-info {
   top: 10px;
   width: 32px;
 }
-div.card div.card-title a.toggle-info span {
+div.card-base div.card-title-base a.toggle-info-base span {
   background: #ffffff;
   display: block;
   height: 2px;
@@ -114,84 +109,84 @@ div.card div.card-title a.toggle-info span {
   transition: all 0.15s 0s ease-out;
   width: 12px;
 }
-div.card div.card-title a.toggle-info span.left {
+div.card-base div.card-title-base a.toggle-info-base span.left-base {
   right: 14px;
   transform: rotate(45deg);
 }
-div.card div.card-title a.toggle-info span.right {
+div.card-base div.card-title-base a.toggle-info-base span.right-base {
   left: 14px;
   transform: rotate(-45deg);
 }
-div.card div.card-title h2 {
+div.card-base div.card-title-base h2 {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.05em;
   margin: 0;
   padding: 0;
 }
-div.card div.card-title h2 small {
+div.card-base div.card-title-base h2 small {
   display: block;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.025em;
 }
-div.card div.card-description {
+div.card-base div.card-description-base {
   padding: 0 15px 10px;
   position: relative;
   font-size: 14px;
 }
-div.card div.card-actions {
+div.card-base div.card-actions-base {
   box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.075);
   padding: 10px 15px 20px;
   text-align: center;
 }
-div.card div.card-flap {
+div.card-base div.card-flap-base {
   background: #d9d9d9;
   position: absolute;
   width: 100%;
   transform-origin: top;
   transform: rotateX(-90deg);
 }
-div.card div.flap1 {
+div.card-base div.flap1-base {
   transition: all 0.3s 0.3s ease-out;
   z-index: -1;
 }
-div.card div.flap2 {
+div.card-base div.flap2-base {
   transition: all 0.3s 0s ease-out;
   z-index: -2;
 }
-div.cards.showing div.card {
+div.cards-base.showing-base div.card-base-base {
   cursor: pointer;
   opacity: 0.6;
   transform: scale(0.88);
 }
-.no-touch div.cards.showing div.card:hover {
+.no-touch-base div.cards-base.showing-base div.card-base:hover {
   opacity: 0.94;
   transform: scale(0.92);
 }
-div.card.show {
+div.card-base.show-base {
   opacity: 1 !important;
   transform: scale(1) !important;
 }
-div.card.show div.card-title a.toggle-info {
+div.card-base.show-base div.card-title-base a.toggle-info-base {
   background: #ff6666 !important;
 }
-div.card.show div.card-title a.toggle-info span {
+div.card-base.show-base div.card-title-base a.toggle-info-base span {
   top: 15px;
 }
-div.card.show div.card-title a.toggle-info span.left {
+div.card-base.show-base div.card-title-base a.toggle-info-base span.left-base {
   right: 10px;
 }
-div.card.show div.card-title a.toggle-info span.right {
+div.card-base.show-base div.card-title-base a.toggle-info-base span.right-base {
   left: 10px;
 }
-div.card.show div.card-flap {
+div.card-base.show-base div.card-flap-base {
   background: #ffffff;
   transform: rotateX(0deg);
 }
-div.card.show div.flap1 {
+div.card-base.show-base div.flap1-base {
   transition: all 0.3s 0s ease-out;
 }
-div.card.show div.flap2 {
+div.card-base.show-base div.flap2-base {
   transition: all 0.3s 0.2s ease-out;
 }
