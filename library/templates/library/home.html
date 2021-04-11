@@ -6,7 +6,7 @@
         {% if user.is_authenticated  %}
             {% if user_library %}
                 <a class="nav-link " href="{% url 'profile' %}">
-                    <h1>My Library</h1></a>
+                    <h1 class="display-4 text-center mb-3 font-weight-bold">My Library</h1></a>
                 <div class="row row-cols-1 row-cols-md-4 ">
                     {% for item in user_library %}
                         {% if forloop.counter < 6 %}
@@ -19,7 +19,7 @@
 
             {% if group_library %}
                 <a class="nav-link" href="{% url 'groups' %}">
-                    <h1>My Groups Library</h1></a>
+                    <h1 class="display-4 text-center mb-3 font-weight-bold">My Groups Library</h1></a>
                 <div class="row row-cols-1 row-cols-md-4 ">
                     {% for item in group_library %}
                         {% if forloop.counter < 6 %}
@@ -31,7 +31,8 @@
         {% endif %}
 
 
-        <a class="nav-link " href="{% url 'library-movie' %}"><h1>Movies</h1></a>
+        <a class="nav-link " href="{% url 'library-movie' %}">
+            <h1 class="display-4 text-center mb-3 font-weight-bold">Movies</h1></a>
         <div class="row row-cols-1 row-cols-md-4">
             {% for item in movies.results %}
                 {% if forloop.counter < 6 %}
@@ -41,7 +42,8 @@
         </div>
 
 
-        <a class="nav-link container" href="{% url 'library-tv' %}"><h1>TV</h1></a>
+        <a class="nav-link container" href="{% url 'library-tv' %}">
+            <h1 class="display-4 text-center mb-3 font-weight-bold">TV</h1></a>
         <div class="row row-cols-1 row-cols-md-4">
             {% for item in tv.results %}
                 {% if forloop.counter < 6 %}
@@ -49,7 +51,8 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <a class="nav-link" href="{% url 'library-music' %}"><h1>Music</h1></a>
+        <a class="nav-link" href="{% url 'library-music' %}">
+            <h1 class="display-4 text-center mb-3 font-weight-bold">Music</h1></a>
         <div class="row row-cols-1 row-cols-md-4">
             {% for item in music %}
                 {% if forloop.counter < 6 %}
