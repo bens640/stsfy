@@ -132,7 +132,7 @@ def add_item(request, item, item_type):
     if item_type == '1':
         if item_info[1]:
             print('exists?')
-            messages.success(request, item.title + ' is already in your watchlist')
+            messages.success(request, item.title + ' is already in your library')
         elif Item.objects.filter(item_id=item.id).exists():
             s1 = Item.objects.filter(item_id=item.id).first()
             ss = UserItem(item=s1, owned_by=request.user)
@@ -150,7 +150,7 @@ def add_item(request, item, item_type):
 
         if item_info[1]:
             print('exists?')
-            messages.success(request, item.name + ' is already in your watchlist')
+            messages.success(request, item.name + ' is already in your library')
         elif Item.objects.filter(item_id=item.id).exists():
             s1 = Item.objects.get(item_id=item.id)
             ss = UserItem(item=s1, owned_by=request.user)

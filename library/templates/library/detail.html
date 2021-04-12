@@ -113,10 +113,13 @@
             {% endfor %}
         </div>
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-   <div class="row">         {% for other in other_watching %}
+   <div class="row">
 
+       {% for other in other_watching %}<div style="margin-left: 15px">
+            <a href="{%   url 'p_profile' other.owned_by.username %}" >
                 <img class="rounded-circle account-img" width="50" src="{{ other.owned_by.profile.image.url }}">
                 <p> {{ other.owned_by }}</p>
+            </a></div>
             {% endfor %}
 </div>
         </div>
